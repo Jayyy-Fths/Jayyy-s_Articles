@@ -1,129 +1,377 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Record — Professional stories, published clearly. Analysis, opinion, and features from expert writers." />
+  <meta property="og:title" content="The Record — Professional Articles" />
+  <meta property="og:description" content="A modern professional article hub designed for sharing analysis, reports, and featured content." />
+  <meta name="theme-color" content="#2563eb" />
   <title>The Record — Professional Articles</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <header class="site-nav">
-    <div class="nav-brand">
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <a href="#latest">Latest Stories</a>
+    <a href="#most-read">Most Read</a>
+    <a href="#about">About</a>
+    <a href="#newsletter">Newsletter</a>
+    <a href="#contact">Contact</a>
+    <a href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener">GitHub Profile</a>
+    <a href="https://github.com/Jayyy/Jayyy-s_Articles" target="_blank" rel="noreferrer noopener">View Source</a>
+  </nav>
+
+  <!-- Navigation -->
+  <header class="site-nav" role="banner">
+    <a href="index.html" class="nav-brand" aria-label="The Record home">
       <span class="logo">The Record</span>
       <span class="nav-tagline">Professional stories, published clearly.</span>
-    </div>
-    <nav class="nav-links">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
       <a href="#latest">Latest</a>
+      <a href="#most-read">Most Read</a>
       <a href="#about">About</a>
       <a href="#newsletter">Newsletter</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button id="dark-mode-toggle" class="dark-mode-toggle" type="button">Dark mode</button>
+
+    <div class="nav-actions">
+      <!-- GitHub -->
+      <a href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener" class="icon-btn" title="GitHub profile" aria-label="GitHub profile">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      </a>
+      <!-- High Contrast -->
+      <button id="contrast-toggle" class="icon-btn" title="Toggle high contrast" aria-label="Toggle high contrast" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 100 16z"/></svg>
+      </button>
+      <!-- Dark Mode -->
+      <button id="dark-mode-toggle" class="icon-btn" title="Toggle dark mode" aria-label="Toggle dark mode" type="button">
+        <svg id="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="icon-sun" viewBox="0 0 24 24" aria-hidden="true" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" type="button">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
+  <!-- Toast Container -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-top" aria-label="Scroll to top" type="button">↑</button>
+
   <main class="container">
-    <section class="hero-card">
+
+    <!-- HERO -->
+    <section class="hero-card reveal" aria-labelledby="hero-heading">
       <div>
-        <span class="eyebrow">Editorial desk</span>
-        <h1>Publish stories with confidence.</h1>
-        <p class="tagline">A modern professional article hub designed for sharing analysis, reports, and featured content with your audience.</p>
+        <div class="hero-badge">✦ Editorial Desk</div>
+        <h1 class="hero-title" id="hero-heading">Stories that inform,<br>analysis that matters.</h1>
+        <p class="hero-tagline">A modern professional article hub featuring expert writers, curated analysis, and in-depth reporting across business, technology, media, and culture.</p>
+        <div class="hero-actions">
+          <a href="#latest" class="btn btn-primary">Browse all stories</a>
+          <a href="#newsletter" class="btn btn-secondary">Subscribe free</a>
+          <a href="https://github.com/Jayyy/Jayyy-s_Articles" target="_blank" rel="noreferrer noopener" class="btn btn-ghost">View source ↗</a>
+        </div>
       </div>
-      <div class="hero-actions">
-        <a href="#latest" class="btn btn-primary">View latest stories</a>
-        <a href="#newsletter" class="btn btn-secondary">Subscribe</a>
+      <div class="hero-stats" aria-label="Site statistics">
+        <div class="hero-stat">
+          <div class="hero-stat-number" id="stat-articles">0</div>
+          <div class="hero-stat-label">Articles</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number" id="stat-authors">0</div>
+          <div class="hero-stat-label">Authors</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number" id="stat-categories">0</div>
+          <div class="hero-stat-label">Categories</div>
+        </div>
       </div>
     </section>
 
-    <section id="featured" class="featured-card hidden"></section>
+    <!-- STATS BAR -->
+    <section class="stats-bar reveal" aria-label="Publication statistics">
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-number" id="stats-total">0</div>
+        <div class="stat-label">Total Articles</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-number" id="stats-authors">0</div>
+        <div class="stat-label">Expert Authors</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-number" id="stats-categories">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-4">
+        <div class="stat-number" id="stats-tags">0</div>
+        <div class="stat-label">Unique Tags</div>
+      </div>
+    </section>
 
-    <section id="latest" class="list-card">
+    <!-- FEATURED -->
+    <section id="featured" class="featured-card hidden reveal" aria-label="Featured story"></section>
+
+    <!-- MOST READ -->
+    <section id="most-read" class="most-read-card reveal" aria-labelledby="most-read-heading">
+      <div class="eyebrow">Trending</div>
+      <h2 id="most-read-heading">Most Read</h2>
+      <ul id="most-read-list" class="most-read-list" aria-label="Most read articles"></ul>
+    </section>
+
+    <!-- TAG CLOUD -->
+    <section class="tag-cloud-card reveal" aria-labelledby="tags-heading">
+      <div class="eyebrow">Browse by Topic</div>
+      <h2 id="tags-heading">Trending Tags</h2>
+      <div id="tag-cloud" class="tag-cloud" role="list" aria-label="Article tags"></div>
+    </section>
+
+    <!-- ARTICLE LIST -->
+    <section id="latest" class="list-card reveal" aria-labelledby="articles-heading">
       <div class="list-header">
         <div>
-          <span class="eyebrow">Latest stories</span>
-          <h2>Featured articles</h2>
+          <div class="eyebrow">Latest Stories</div>
+          <h2 id="articles-heading">Featured Articles</h2>
         </div>
-        <p class="article-summary" id="article-stats"></p>
+        <p id="article-stats" aria-live="polite" aria-atomic="true"></p>
       </div>
 
-      <div class="filters">
-        <label>
-          <span>Search</span>
-          <input id="search-input" type="search" placeholder="Search by title, author, tag, or keyword" />
-        </label>
-        <label>
-          <span>Category</span>
-          <select id="category-filter"><option value="">All categories</option></select>
-        </label>
-        <label>
-          <span>Tag</span>
-          <select id="tag-filter"><option value="">All tags</option></select>
-        </label>
-        <button id="clear-filters" class="btn btn-secondary" type="button">Clear filters</button>
+      <div class="filters" role="search" aria-label="Article filters">
+        <div class="filter-group" style="grid-column: 1 / -1;">
+          <label for="search-input" class="filter-label">Search</label>
+          <div class="search-wrapper">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input
+              id="search-input"
+              class="filter-input search-input-inner"
+              type="search"
+              placeholder="Search by title, author, tag, or keyword…"
+              autocomplete="off"
+              aria-label="Search articles"
+            />
+            <span id="search-count" class="search-count hidden" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label for="category-filter" class="filter-label">Category</label>
+          <select id="category-filter" class="filter-input" aria-label="Filter by category">
+            <option value="">All categories</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="tag-filter" class="filter-label">Tag</label>
+          <select id="tag-filter" class="filter-input" aria-label="Filter by tag">
+            <option value="">All tags</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="author-filter" class="filter-label">Author</label>
+          <select id="author-filter" class="filter-input" aria-label="Filter by author">
+            <option value="">All authors</option>
+          </select>
+        </div>
       </div>
 
-      <ul id="article-list" class="article-list"></ul>
-      <p id="empty-state" class="empty-state">No articles match your search or filter. Try another term.</p>
-      <div id="pagination-controls" class="pagination-controls"></div>
+      <div class="sort-row">
+        <div class="sort-buttons" role="group" aria-label="Sort articles">
+          <span class="sort-label">Sort:</span>
+          <button class="sort-btn active" data-sort="newest" type="button">Newest</button>
+          <button class="sort-btn" data-sort="oldest" type="button">Oldest</button>
+          <button class="sort-btn" data-sort="title" type="button">A–Z</button>
+          <button class="sort-btn" data-sort="readtime" type="button">Read time</button>
+          <button class="sort-btn" data-sort="views" type="button">Most viewed</button>
+        </div>
+        <div class="view-toggle" role="group" aria-label="Change view">
+          <button class="view-btn active" id="list-view-btn" title="List view" type="button" aria-pressed="true">☰</button>
+          <button class="view-btn" id="grid-view-btn" title="Grid view" type="button" aria-pressed="false">⊞</button>
+          <button class="btn btn-sm btn-ghost" id="clear-filters" type="button">Clear filters</button>
+        </div>
+      </div>
+
+      <ul id="article-list" class="article-list" role="list" aria-label="Article list"></ul>
+
+      <div class="empty-state" id="empty-state" role="status">
+        <div class="empty-emoji">🔎</div>
+        <div class="empty-title">No stories found</div>
+        <p class="empty-text">Try a different search term, category, or clear your filters.</p>
+        <button class="btn btn-secondary" id="empty-clear" style="margin-top:16px;" type="button">Clear all filters</button>
+      </div>
+
+      <div id="pagination-controls" class="pagination-controls" role="navigation" aria-label="Article pagination"></div>
     </section>
 
-    <section id="about" class="info-card">
-      <div>
-        <span class="eyebrow">About this page</span>
-        <h2>Professional article presentation</h2>
-        <p>Use this page to showcase your findings, analysis, or editorial content in a clean, modern format. Add stories in <code>articles.js</code>, then share their individual links with your audience.</p>
+    <!-- ABOUT -->
+    <section id="about" class="info-card reveal" aria-labelledby="about-heading">
+      <div class="info-card-header">
+        <div class="eyebrow">About</div>
+        <h2 id="about-heading">Professional Article Presentation</h2>
+        <p>A clean, modern platform built for sharing analysis, reports, and editorial content. Add stories in <code>assets/js/articles.js</code>, then share individual article links with your audience.</p>
       </div>
       <div class="info-grid">
-        <div>
-          <h3>Fast setup</h3>
-          <p>Edit one data file, refresh, and your site is ready to publish.</p>
+        <div class="info-item reveal reveal-delay-1">
+          <div class="info-item-icon">⚡</div>
+          <h3>Fast Setup</h3>
+          <p>Edit one data file, refresh, and your site is ready to publish. No build tools or server required.</p>
         </div>
-        <div>
-          <h3>Better discovery</h3>
-          <p>Search, filter, and browse tags so readers can quickly find the stories they want.</p>
+        <div class="info-item reveal reveal-delay-2">
+          <div class="info-item-icon">🔍</div>
+          <h3>Better Discovery</h3>
+          <p>Search, filter by category, tag, and author — so readers quickly find the stories they want.</p>
         </div>
-        <div>
-          <h3>Reader tools</h3>
-          <p>Article pages include related stories, sharing tools, comments, and a polished reading experience.</p>
+        <div class="info-item reveal reveal-delay-3">
+          <div class="info-item-icon">📖</div>
+          <h3>Reader Tools</h3>
+          <p>Article pages include a table of contents, text size controls, share buttons, comments, and bookmarks.</p>
         </div>
-        <div>
-          <h3>Newsletter ready</h3>
-          <p>Collect subscriptions directly on the page and keep your audience engaged.</p>
+        <div class="info-item reveal reveal-delay-4">
+          <div class="info-item-icon">📬</div>
+          <h3>Newsletter Ready</h3>
+          <p>Collect subscriptions with topic preferences and keep your audience engaged with curated updates.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-item-icon">🌙</div>
+          <h3>Dark Mode</h3>
+          <p>Full dark and light mode support with high-contrast accessibility option and smooth transitions.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-item-icon">📱</div>
+          <h3>Fully Responsive</h3>
+          <p>Optimized for mobile, tablet, and desktop with adaptive grid and list layouts.</p>
         </div>
       </div>
     </section>
 
-    <section id="newsletter" class="newsletter-card">
-      <div>
-        <span class="eyebrow">Newsletter</span>
-        <h2>Stay updated with new stories</h2>
-        <p>Subscribe to receive updates when new articles are added. The email is stored locally in the browser so you can test the subscription flow.</p>
+    <!-- NEWSLETTER -->
+    <section id="newsletter" class="newsletter-card reveal" aria-labelledby="newsletter-heading">
+      <div class="newsletter-header">
+        <div class="eyebrow">Newsletter</div>
+        <h2 id="newsletter-heading">Stay updated with new stories</h2>
+        <p>Subscribe to receive updates when new articles are published. Choose your topics of interest and we'll deliver the stories that matter most to you.</p>
       </div>
-      <form id="subscribe-form" class="subscribe-form">
-        <label for="subscribe-email">Email address</label>
-        <input id="subscribe-email" type="email" placeholder="you@example.com" required />
-        <button type="submit" class="btn btn-primary">Subscribe</button>
-        <p id="subscribe-message" class="form-message"></p>
+      <form id="subscribe-form" class="newsletter-form" novalidate aria-label="Newsletter signup">
+        <div class="newsletter-row">
+          <div class="form-group">
+            <label for="subscribe-name" class="form-label">First Name</label>
+            <input id="subscribe-name" class="form-input" type="text" placeholder="Your name" autocomplete="given-name" />
+          </div>
+          <div class="form-group">
+            <label for="subscribe-email" class="form-label">Email Address</label>
+            <input id="subscribe-email" class="form-input" type="email" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+        </div>
+        <div>
+          <div class="preferences-label">Interests (optional)</div>
+          <div class="preferences" role="group" aria-label="Newsletter topic preferences">
+            <label class="pref-chip"><input type="checkbox" value="Analysis" /> Analysis</label>
+            <label class="pref-chip"><input type="checkbox" value="Technology" /> Technology</label>
+            <label class="pref-chip"><input type="checkbox" value="Opinion" /> Opinion</label>
+            <label class="pref-chip"><input type="checkbox" value="Features" /> Features</label>
+            <label class="pref-chip"><input type="checkbox" value="News" /> News</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Subscribe — it's free</button>
+        <p id="subscribe-message" class="form-message" role="status" aria-live="polite"></p>
       </form>
     </section>
 
-    <section id="contact" class="info-card contact-card">
-      <div>
-        <span class="eyebrow">Contact</span>
-        <h2>Share your work with readers</h2>
-        <p>Customize this project by adding your branding, more sections, or an author profile. The navigation links let visitors reach the article list, newsletter, and contact details quickly.</p>
+    <!-- CONTACT -->
+    <section id="contact" class="info-card contact-card reveal" aria-labelledby="contact-heading">
+      <div class="info-card-header">
+        <div class="eyebrow">Contact</div>
+        <h2 id="contact-heading">Get in Touch</h2>
+        <p>Have a story idea, feedback, or want to collaborate? Reach out through any of the channels below — or explore the source code on GitHub.</p>
       </div>
-      <div class="contact-details">
-        <p><strong>Email:</strong> info@example.com</p>
-        <p><strong>Website:</strong> <a href="https://example.com" target="_blank" rel="noreferrer noopener">example.com</a></p>
+      <div class="contact-info-grid">
+        <a class="contact-item" href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener">
+          <span class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </span>
+          <span>
+            <span class="contact-text">GitHub</span>
+            <small>github.com/Jayyy</small>
+          </span>
+        </a>
+        <a class="contact-item" href="https://github.com/Jayyy/Jayyy-s_Articles" target="_blank" rel="noreferrer noopener">
+          <span class="contact-icon">📦</span>
+          <span>
+            <span class="contact-text">Source Code</span>
+            <small>View this project on GitHub</small>
+          </span>
+        </a>
+        <a class="contact-item" href="mailto:226jazore@frhsd.com">
+          <span class="contact-icon">✉️</span>
+          <span>
+            <span class="contact-text">Email</span>
+            <small>226jazore@frhsd.com</small>
+          </span>
+        </a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; 2026 The Record. Built for professional article sharing.</p>
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">The Record</a>
+        <p class="footer-desc">Professional stories, published clearly. A modern article hub for analysis, features, and in-depth reporting.</p>
+        <div class="footer-social" aria-label="Social links">
+          <a href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener" class="social-link social-github" title="GitHub" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://twitter.com/" target="_blank" rel="noreferrer noopener" class="social-link social-twitter" title="Twitter / X" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://linkedin.com/" target="_blank" rel="noreferrer noopener" class="social-link social-linkedin" title="LinkedIn" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Sections</h4>
+        <ul>
+          <li><a href="#latest">Latest Articles</a></li>
+          <li><a href="#most-read">Most Read</a></li>
+          <li><a href="#featured">Featured Story</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul id="footer-categories">
+          <li><a href="#">Analysis</a></li>
+          <li><a href="#">Technology</a></li>
+          <li><a href="#">Opinion</a></li>
+          <li><a href="#">Features</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener">GitHub Profile ↗</a></li>
+          <li><a href="https://github.com/Jayyy/Jayyy-s_Articles" target="_blank" rel="noreferrer noopener">Source Code ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="footer-year"></span> The Record by <a href="https://github.com/Jayyy" target="_blank" rel="noreferrer noopener" style="color:var(--accent);text-decoration:none;">Jayyy</a>. All rights reserved.</p>
+      <p class="footer-tagline">Built with care for professional article sharing.</p>
+    </div>
   </footer>
 
-  <script src="articles.js"></script>
-  <script src="index.js"></script>
+  <script src="assets/js/articles.js"></script>
+  <script src="assets/js/index.js"></script>
 </body>
 </html>
