@@ -175,7 +175,7 @@ function renderMostRead() {
   sorted.forEach((article, i) => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <a class="most-read-item" href="article.html?slug=${encodeURIComponent(article.slug)}">
+      <a class="most-read-item" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>
         <span class="most-read-rank">${i + 1}</span>
         <span>
           <div class="most-read-title">${article.title}</div>
@@ -267,7 +267,7 @@ function renderFeatured() {
       <h2 class="featured-title">${featured.title}</h2>
       <p class="featured-excerpt">${featured.excerpt || ''}</p>
       <div class="featured-actions">
-        <a class="btn btn-primary" href="article.html?slug=${encodeURIComponent(featured.slug)}">Read story →</a>
+        <a class="btn btn-primary" href="${featured.externalUrl || `article.html?slug=${encodeURIComponent(featured.slug)}`}" ${featured.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>Read story →</a>
         <button class="btn btn-secondary bookmark-btn ${isBookmarked(featured.slug) ? 'bookmarked' : ''}" data-slug="${featured.slug}" onclick="toggleBookmark('${featured.slug}')" type="button">
           ${isBookmarked(featured.slug) ? '🔖 Saved' : '🔖 Save'}
         </button>
@@ -359,7 +359,7 @@ function renderArticleCards() {
           <span>${article.readingTime}</span>
           ${article.wordCount ? `<span class="meta-dot">·</span><span>${article.wordCount.toLocaleString()} words</span>` : ''}
         </div>
-        <a class="article-link" href="article.html?slug=${encodeURIComponent(article.slug)}">${article.title}</a>
+        <a class="article-link" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>${article.title}</a>
         <p class="article-excerpt">${article.excerpt || ''}</p>
         <div class="tag-list">
           ${(article.tags || []).map(t => `<button class="tag-pill" onclick="setTagFilter('${t}');return false;" type="button">${t}</button>`).join('')}
@@ -367,7 +367,7 @@ function renderArticleCards() {
         </div>
       </div>
       <div class="article-right">
-        <a class="btn btn-sm btn-secondary" href="article.html?slug=${encodeURIComponent(article.slug)}">Read →</a>
+        <a class="btn btn-sm btn-secondary" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>Read →</a>
         <button class="bookmark-btn ${bookmarked ? 'bookmarked' : ''}" data-slug="${article.slug}" type="button" title="${bookmarked ? 'Remove bookmark' : 'Bookmark this article'}" aria-label="${bookmarked ? 'Remove bookmark' : 'Bookmark'}">
           ${bookmarked ? '🔖' : '🔖'}
         </button>

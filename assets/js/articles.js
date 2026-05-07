@@ -1,5 +1,23 @@
 const articles = [
   {
+    slug: 'columbine-media-coverage',
+    title: 'Columbine School Shooting: A Media Coverage Analysis',
+    category: 'Analysis',
+    tags: ['Journalism', 'Media', 'History', 'Ethics', 'Investigation'],
+    author: 'Jayyy',
+    authorBio: 'Jayyy is a student journalist examining how landmark events are covered — and miscovered — by the media.',
+    authorAvatar: 'JY',
+    date: 'May 7, 2026',
+    readingTime: '8 min read',
+    wordCount: 1600,
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
+    featured: false,
+    externalUrl: 'https://jayyy-fths.github.io/Columbine-School-Shooting-Media-Coverage-Analysis/',
+    excerpt: 'A deep-dive into how the Columbine school shooting was reported, sensationalized, and mythologized by media outlets — and what it means for journalism ethics today.',
+    relatedSlugs: ['opinion-public-trust', 'policy-report', 'interview-editor'],
+    content: '',
+  },
+  {
     slug: 'market-outlook-q2',
     title: 'Market Outlook for Q2: Trends to Watch',
     category: 'Analysis',
