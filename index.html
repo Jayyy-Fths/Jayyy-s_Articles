@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Record — Professional Articles</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <div class="nav-brand">
+      <span class="logo">The Record</span>
+      <span class="nav-tagline">Professional stories, published clearly.</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#latest">Latest</a>
+      <a href="#about">About</a>
+      <a href="#newsletter">Newsletter</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="dark-mode-toggle" class="dark-mode-toggle" type="button">Dark mode</button>
+  </header>
+
+  <main class="container">
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow">Editorial desk</span>
+        <h1>Publish stories with confidence.</h1>
+        <p class="tagline">A modern professional article hub designed for sharing analysis, reports, and featured content with your audience.</p>
+      </div>
+      <div class="hero-actions">
+        <a href="#latest" class="btn btn-primary">View latest stories</a>
+        <a href="#newsletter" class="btn btn-secondary">Subscribe</a>
+      </div>
+    </section>
+
+    <section id="featured" class="featured-card hidden"></section>
+
+    <section id="latest" class="list-card">
+      <div class="list-header">
+        <div>
+          <span class="eyebrow">Latest stories</span>
+          <h2>Featured articles</h2>
+        </div>
+        <p class="article-summary" id="article-stats"></p>
+      </div>
+
+      <div class="filters">
+        <label>
+          <span>Search</span>
+          <input id="search-input" type="search" placeholder="Search by title, author, tag, or keyword" />
+        </label>
+        <label>
+          <span>Category</span>
+          <select id="category-filter"><option value="">All categories</option></select>
+        </label>
+        <label>
+          <span>Tag</span>
+          <select id="tag-filter"><option value="">All tags</option></select>
+        </label>
+        <button id="clear-filters" class="btn btn-secondary" type="button">Clear filters</button>
+      </div>
+
+      <ul id="article-list" class="article-list"></ul>
+      <p id="empty-state" class="empty-state">No articles match your search or filter. Try another term.</p>
+      <div id="pagination-controls" class="pagination-controls"></div>
+    </section>
+
+    <section id="about" class="info-card">
+      <div>
+        <span class="eyebrow">About this page</span>
+        <h2>Professional article presentation</h2>
+        <p>Use this page to showcase your findings, analysis, or editorial content in a clean, modern format. Add stories in <code>articles.js</code>, then share their individual links with your audience.</p>
+      </div>
+      <div class="info-grid">
+        <div>
+          <h3>Fast setup</h3>
+          <p>Edit one data file, refresh, and your site is ready to publish.</p>
+        </div>
+        <div>
+          <h3>Better discovery</h3>
+          <p>Search, filter, and browse tags so readers can quickly find the stories they want.</p>
+        </div>
+        <div>
+          <h3>Reader tools</h3>
+          <p>Article pages include related stories, sharing tools, comments, and a polished reading experience.</p>
+        </div>
+        <div>
+          <h3>Newsletter ready</h3>
+          <p>Collect subscriptions directly on the page and keep your audience engaged.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="newsletter-card">
+      <div>
+        <span class="eyebrow">Newsletter</span>
+        <h2>Stay updated with new stories</h2>
+        <p>Subscribe to receive updates when new articles are added. The email is stored locally in the browser so you can test the subscription flow.</p>
+      </div>
+      <form id="subscribe-form" class="subscribe-form">
+        <label for="subscribe-email">Email address</label>
+        <input id="subscribe-email" type="email" placeholder="you@example.com" required />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+        <p id="subscribe-message" class="form-message"></p>
+      </form>
+    </section>
+
+    <section id="contact" class="info-card contact-card">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h2>Share your work with readers</h2>
+        <p>Customize this project by adding your branding, more sections, or an author profile. The navigation links let visitors reach the article list, newsletter, and contact details quickly.</p>
+      </div>
+      <div class="contact-details">
+        <p><strong>Email:</strong> info@example.com</p>
+        <p><strong>Website:</strong> <a href="https://example.com" target="_blank" rel="noreferrer noopener">example.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 The Record. Built for professional article sharing.</p>
+  </footer>
+
+  <script src="articles.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

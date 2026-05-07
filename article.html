@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <div class="nav-brand">
+      <span class="logo">The Record</span>
+      <span class="nav-tagline">Professional stories, published clearly.</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#latest">Articles</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button id="dark-mode-toggle" class="dark-mode-toggle" type="button">Dark mode</button>
+  </header>
+
+  <main class="container">
+    <section class="article-hero" id="article-hero">
+      <div class="article-hero-copy">
+        <span class="eyebrow" id="article-category">Story</span>
+        <h1 id="article-title">Loading...</h1>
+        <p class="article-meta" id="article-date"></p>
+        <div id="article-tags" class="tag-list"></div>
+      </div>
+      <div class="article-hero-actions">
+        <button id="share-button" class="btn btn-secondary" type="button">Copy link</button>
+        <span id="share-message" class="form-message"></span>
+      </div>
+    </section>
+
+    <div id="article-image" class="article-image hidden"></div>
+    <article class="article-content" id="article-content"></article>
+
+    <section class="related-card">
+      <h2>Related articles</h2>
+      <ul id="related-list" class="related-list"></ul>
+    </section>
+
+    <section class="comments-card">
+      <div class="comments-header">
+        <h2>Reader comments</h2>
+        <span id="comment-count">0 comments</span>
+      </div>
+      <ul id="comment-list" class="comment-list"></ul>
+      <form id="comment-form" class="comment-form">
+        <label for="comment-name">Name</label>
+        <input id="comment-name" type="text" placeholder="Your name" required />
+
+        <label for="comment-message">Comment</label>
+        <textarea id="comment-message" rows="4" placeholder="Share your thoughts" required></textarea>
+
+        <button type="submit" class="btn btn-primary">Post comment</button>
+      </form>
+    </section>
+
+    <p class="back-link"><a href="index.html">← Back to article list</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 The Record. Built for professional article sharing.</p>
+  </footer>
+
+  <script src="articles.js"></script>
+  <script src="article.js"></script>
+</body>
+</html>
