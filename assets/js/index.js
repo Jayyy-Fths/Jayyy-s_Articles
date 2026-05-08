@@ -674,4 +674,4 @@ function init() {
   initPrefChips();
 }
 
-init();
+onArticlesReady(init);

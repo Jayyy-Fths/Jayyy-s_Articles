@@ -569,4 +569,4 @@ function init() {
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
 
-init();
+onArticlesReady(init);

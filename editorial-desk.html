@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editorial Desk — The Record</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8fafc; --surface: #fff; --border: #e2e8f0;
+      --text: #0f172a; --text-2: #475569; --text-3: #94a3b8;
+      --accent: #2563eb; --accent-hover: #1d4ed8;
+      --danger: #dc2626; --danger-hover: #b91c1c;
+      --success: #059669; --radius: 10px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a; --surface: #1e293b; --border: #334155;
+      --text: #f1f5f9; --text-2: #94a3b8; --text-3: #475569;
+    }
+    body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* Header */
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .admin-header h1 { font-size: 1.5rem; font-weight: 700; }
+    .admin-header a { color: var(--text-2); font-size: 0.9rem; text-decoration: none; }
+    .admin-header a:hover { color: var(--accent); }
+
+    /* Setup banner */
+    #setup-banner { background: #fef3c7; border: 1px solid #fcd34d; border-radius: var(--radius); padding: 16px 20px; margin-bottom: 28px; display: none; }
+    [data-theme="dark"] #setup-banner { background: #451a03; border-color: #92400e; }
+    #setup-banner strong { color: #92400e; }
+    [data-theme="dark"] #setup-banner strong { color: #fcd34d; }
+    #setup-banner code { background: #fde68a; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+    [data-theme="dark"] #setup-banner code { background: #78350f; color: #fde68a; }
+
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; }
+    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 0.85rem; font-weight: 500; color: var(--text-2); }
+    input, select, textarea {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+      padding: 9px 12px; font-size: 0.9rem; color: var(--text); font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 100px; }
+    .form-hint { font-size: 0.78rem; color: var(--text-3); }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 7px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: background 0.15s, opacity 0.15s; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-danger { background: var(--danger); color: #fff; font-size: 0.8rem; padding: 5px 11px; }
+    .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-2); }
+    .btn-ghost:hover { background: var(--bg); }
+    .form-actions { margin-top: 20px; display: flex; gap: 12px; align-items: center; }
+
+    /* Status message */
+    .status-msg { font-size: 0.9rem; padding: 8px 14px; border-radius: 7px; }
+    .status-msg.ok  { background: #d1fae5; color: #065f46; }
+    .status-msg.err { background: #fee2e2; color: #991b1b; }
+    [data-theme="dark"] .status-msg.ok  { background: #064e3b; color: #6ee7b7; }
+    [data-theme="dark"] .status-msg.err { background: #450a0a; color: #fca5a5; }
+
+    /* Article list */
+    #convex-list { list-style: none; }
+    .article-row {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .article-row:last-child { border-bottom: none; }
+    .article-row-info { flex: 1; min-width: 0; }
+    .article-row-title { font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .article-row-meta { font-size: 0.8rem; color: var(--text-3); margin-top: 2px; }
+    .empty-msg { color: var(--text-3); font-size: 0.9rem; padding: 16px 0; }
+
+    /* Dark toggle */
+    .dark-btn { background: none; border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; cursor: pointer; color: var(--text-2); font-size: 1rem; }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="admin-header">
+      <div>
+        <h1>✦ Editorial Desk</h1>
+        <div style="font-size:0.85rem;color:var(--text-2);margin-top:2px;">The Record — Article Management</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="dark-btn" id="dark-toggle" title="Toggle dark mode">🌙</button>
+        <a href="index.html">← Back to site</a>
+      </div>
+    </header>
+
+    <!-- Setup banner (shown when CONVEX_SITE_URL is not set) -->
+    <div id="setup-banner">
+      <strong>Setup required:</strong> Convex is not connected yet. Follow these steps:
+      <ol style="margin:10px 0 0 20px;line-height:2;">
+        <li>Run <code>npm install</code> in the project folder</li>
+        <li>Run <code>npx convex dev</code> — this opens a browser to log in and creates your deployment</li>
+        <li>Copy the <strong>Site URL</strong> shown in the terminal (looks like <code>https://happy-animal-123.convex.site</code>)</li>
+        <li>Paste it into <code>assets/js/convex-config.js</code> as the value of <code>CONVEX_SITE_URL</code></li>
+        <li>Refresh this page</li>
+      </ol>
+    </div>
+
+    <!-- Convex articles list -->
+    <div class="card">
+      <div class="card-title">📄 Articles in Convex <span id="convex-count" style="font-size:0.8rem;font-weight:400;color:var(--text-3);"></span></div>
+      <ul id="convex-list"><li class="empty-msg">Loading…</li></ul>
+    </div>
+
+    <!-- Add article form -->
+    <div class="card">
+      <div class="card-title">➕ Add New Article</div>
+      <form id="add-form" novalidate>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="f-title">Title *</label>
+            <input id="f-title" type="text" placeholder="Article title" required />
+          </div>
+
+          <div class="form-group">
+            <label for="f-slug">Slug *</label>
+            <input id="f-slug" type="text" placeholder="my-article-slug" required />
+            <span class="form-hint">URL-safe, lowercase, hyphens only</span>
+          </div>
+
+          <div class="form-group">
+            <label for="f-author">Author *</label>
+            <input id="f-author" type="text" placeholder="Author name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="f-date">Date *</label>
+            <input id="f-date" type="text" placeholder="May 8, 2026" required />
+          </div>
+
+          <div class="form-group">
+            <label for="f-category">Category *</label>
+            <select id="f-category" required>
+              <option value="">Select category…</option>
+              <option>Analysis</option>
+              <option>News</option>
+              <option>Opinion</option>
+              <option>Features</option>
+              <option>Technology</option>
+              <option>Science</option>
+              <option>Culture</option>
+              <option>Business</option>
+              <option>Health</option>
+              <option>Politics</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-tags">Tags</label>
+            <input id="f-tags" type="text" placeholder="Tag1, Tag2, Tag3" />
+            <span class="form-hint">Comma-separated</span>
+          </div>
+
+          <div class="form-group">
+            <label for="f-reading-time">Reading Time</label>
+            <input id="f-reading-time" type="text" placeholder="5 min read" />
+          </div>
+
+          <div class="form-group">
+            <label for="f-word-count">Word Count</label>
+            <input id="f-word-count" type="number" placeholder="1000" min="0" />
+          </div>
+
+          <div class="form-group">
+            <label for="f-image">Cover Image URL</label>
+            <input id="f-image" type="url" placeholder="https://…" />
+          </div>
+
+          <div class="form-group">
+            <label for="f-external-url">External URL</label>
+            <input id="f-external-url" type="url" placeholder="https://… (leave blank for internal article)" />
+            <span class="form-hint">If set, "Read" button links here instead of article.html</span>
+          </div>
+
+          <div class="form-group">
+            <label for="f-author-bio">Author Bio</label>
+            <input id="f-author-bio" type="text" placeholder="Short author description" />
+          </div>
+
+          <div class="form-group">
+            <label for="f-series">Series</label>
+            <input id="f-series" type="text" placeholder="Series name (optional)" />
+          </div>
+
+          <div class="form-group full" style="flex-direction:row;align-items:center;gap:10px;">
+            <input id="f-featured" type="checkbox" style="width:16px;height:16px;padding:0;" />
+            <label for="f-featured" style="margin:0;cursor:pointer;">Mark as featured article</label>
+          </div>
+
+          <div class="form-group full">
+            <label for="f-excerpt">Excerpt</label>
+            <textarea id="f-excerpt" placeholder="Short summary shown on the listing page…" rows="3"></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="f-content">Content (HTML)</label>
+            <textarea id="f-content" placeholder="<p>Article body HTML…</p>" rows="8"></textarea>
+            <span class="form-hint">Supports HTML: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;blockquote&gt;, etc.</span>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="submit-btn">Publish Article</button>
+          <button type="button" class="btn btn-ghost" id="reset-btn">Clear form</button>
+          <span id="form-status"></span>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="assets/js/convex-config.js"></script>
+  <script>
+    // ── Dark mode ────────────────────────────────────────────
+    const darkBtn = document.getElementById('dark-toggle');
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      darkBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+    applyTheme(localStorage.getItem('theme') || 'light');
+    darkBtn.addEventListener('click', () => applyTheme(
+      document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+    ));
+
+    // ── Convex URL check ────────────────────────────────────
+    const url = typeof CONVEX_SITE_URL !== 'undefined' ? CONVEX_SITE_URL : '';
+    if (!url) document.getElementById('setup-banner').style.display = 'block';
+
+    // ── Load articles from Convex ────────────────────────────
+    async function loadList() {
+      const list  = document.getElementById('convex-list');
+      const count = document.getElementById('convex-count');
+      if (!url) {
+        list.innerHTML = '<li class="empty-msg">Connect Convex first (see setup instructions above).</li>';
+        return;
+      }
+      try {
+        const res  = await fetch(url + '/articles');
+        const data = await res.json();
+        count.textContent = `(${data.length})`;
+        if (!data.length) {
+          list.innerHTML = '<li class="empty-msg">No articles in Convex yet — add one below.</li>';
+          return;
+        }
+        list.innerHTML = '';
+        data.forEach(article => {
+          const li = document.createElement('li');
+          li.className = 'article-row';
+          li.innerHTML = `
+            <div class="article-row-info">
+              <div class="article-row-title">${escHtml(article.title)}</div>
+              <div class="article-row-meta">${escHtml(article.author)} · ${escHtml(article.category)} · ${escHtml(article.date)}</div>
+            </div>
+            <button class="btn btn-danger del-btn" data-id="${article._id}">Delete</button>
+          `;
+          li.querySelector('.del-btn').addEventListener('click', () => deleteArticle(article._id, article.title));
+          list.appendChild(li);
+        });
+      } catch (e) {
+        list.innerHTML = `<li class="empty-msg" style="color:var(--danger);">Error loading articles: ${e.message}</li>`;
+      }
+    }
+
+    // ── Delete article ───────────────────────────────────────
+    async function deleteArticle(id, title) {
+      if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+      try {
+        const res = await fetch(`${url}/articles?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error(await res.text());
+        loadList();
+      } catch (e) {
+        alert('Delete failed: ' + e.message);
+      }
+    }
+
+    // ── Auto-fill slug from title ────────────────────────────
+    const titleInput = document.getElementById('f-title');
+    const slugInput  = document.getElementById('f-slug');
+    let slugTouched  = false;
+    slugInput.addEventListener('input', () => { slugTouched = true; });
+    titleInput.addEventListener('input', () => {
+      if (!slugTouched) {
+        slugInput.value = titleInput.value
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+    });
+
+    // ── Auto-fill date ───────────────────────────────────────
+    const dateInput = document.getElementById('f-date');
+    if (!dateInput.value) {
+      dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    // ── Submit form ──────────────────────────────────────────
+    const form      = document.getElementById('add-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusEl  = document.getElementById('form-status');
+
+    function setStatus(msg, type) {
+      statusEl.textContent = msg;
+      statusEl.className = `status-msg ${type}`;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!url) { setStatus('Convex not connected — see setup instructions.', 'err'); return; }
+
+      const title = document.getElementById('f-title').value.trim();
+      const slug  = document.getElementById('f-slug').value.trim();
+      const author = document.getElementById('f-author').value.trim();
+      const date   = document.getElementById('f-date').value.trim();
+      const category = document.getElementById('f-category').value;
+
+      if (!title || !slug || !author || !date || !category) {
+        setStatus('Please fill in all required fields (marked with *).', 'err');
+        return;
+      }
+
+      const rawTags = document.getElementById('f-tags').value;
+      const tags = rawTags ? rawTags.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+      const wordCountVal = document.getElementById('f-word-count').value;
+      const payload = {
+        title, slug, author, date, category, tags,
+        authorBio:   document.getElementById('f-author-bio').value.trim() || undefined,
+        authorAvatar: author.slice(0, 2).toUpperCase(),
+        readingTime: document.getElementById('f-reading-time').value.trim() || undefined,
+        wordCount:   wordCountVal ? parseInt(wordCountVal, 10) : undefined,
+        image:       document.getElementById('f-image').value.trim() || undefined,
+        externalUrl: document.getElementById('f-external-url').value.trim() || undefined,
+        excerpt:     document.getElementById('f-excerpt').value.trim() || undefined,
+        content:     document.getElementById('f-content').value.trim() || undefined,
+        series:      document.getElementById('f-series').value.trim() || undefined,
+        featured:    document.getElementById('f-featured').checked || undefined,
+      };
+
+      // Remove undefined keys
+      Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Publishing…';
+      setStatus('', '');
+
+      try {
+        const res = await fetch(url + '/articles', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+        setStatus(`"${title}" published successfully!`, 'ok');
+        form.reset();
+        slugTouched = false;
+        dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        loadList();
+      } catch (err) {
+        setStatus('Error: ' + err.message, 'err');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Publish Article';
+      }
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      form.reset();
+      slugTouched = false;
+      setStatus('', '');
+      dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    });
+
+    // ── Helpers ──────────────────────────────────────────────
+    function escHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ── Init ─────────────────────────────────────────────────
+    loadList();
+  </script>
+</body>
+</html>

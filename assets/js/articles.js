@@ -1,4 +1,4 @@
-const articles = [
+const STATIC_ARTICLES = [
   {
     slug: 'columbine-media-coverage',
     title: 'Columbine School Shooting: A Media Coverage Analysis',
@@ -979,3 +979,37 @@ const articles = [
     `,
   },
 ];
+
+// ── Convex async loader ──────────────────────────────────────
+// articles starts as the static list so the page works even without Convex.
+// Once the Convex fetch resolves, articles is replaced with the merged set
+// (Convex articles first, then any static articles not already in Convex).
+let articles = STATIC_ARTICLES;
+
+const _articlesCallbacks = [];
+let _articlesLoaded = false;
+
+function onArticlesReady(cb) {
+  if (_articlesLoaded) { cb(); } else { _articlesCallbacks.push(cb); }
+}
+
+(async function loadFromConvex() {
+  if (typeof CONVEX_SITE_URL !== 'undefined' && CONVEX_SITE_URL) {
+    try {
+      const res = await fetch(CONVEX_SITE_URL + '/articles');
+      if (res.ok) {
+        const remote = await res.json();
+        const remoteSlugs = new Set(remote.map(a => a.slug));
+        articles = [
+          ...remote,
+          ...STATIC_ARTICLES.filter(a => !remoteSlugs.has(a.slug)),
+        ];
+      }
+    } catch (e) {
+      console.warn('[Convex] fetch failed, using static articles:', e);
+    }
+  }
+  _articlesLoaded = true;
+  _articlesCallbacks.forEach(f => f());
+  _articlesCallbacks.length = 0;
+})();
