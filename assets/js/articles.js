@@ -774,4 +774,208 @@ const articles = [
       <p>No library has unlimited resources. Selection decisions are always made, and the criteria for selection are legitimately open to community input. The question is where the line falls between community input and organized suppression — and that line is exactly what is being contested in school board meetings and courts across the country right now.</p>
     `,
   },
+  {
+    slug: 'local-news-collapse',
+    title: 'The Death of Local News — and What Gets Lost With It',
+    category: 'Features',
+    tags: ['Journalism', 'Media', 'Democracy', 'Community'],
+    author: 'Jordan Miles',
+    authorBio: 'Jordan Miles covers media policy and digital regulation for The Record. Previously a researcher at the Reuters Institute.',
+    authorAvatar: 'JM',
+    date: 'March 3, 2026',
+    readingTime: '8 min read',
+    wordCount: 1550,
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'More than 3,000 local newspapers have closed since 2005. Researchers are now documenting what disappears with them — and the findings are alarming.',
+    relatedSlugs: ['opinion-public-trust', 'policy-report', 'ai-in-journalism'],
+    content: `
+      <p>In 2004 the United States had approximately 9,000 local newspapers. By early 2026 that number had fallen below 6,000, with more than 200 counties left without any local news outlet of any kind. The Pew Research Center calls these areas "news deserts." Researchers studying them are beginning to quantify what vanishes when the local paper closes — and the consequences extend well beyond the loss of a Saturday morning ritual.</p>
+      <h2>The Scale of the Collapse</h2>
+      <p>The collapse has been driven by a structural shift in advertising revenue. Classified ads — which once funded a large share of local news operations — migrated to Craigslist in the 2000s. Display advertising followed audiences to Facebook and Google. Local papers were left with the costs of reporting but without the revenue that had sustained it for a century. The business model broke all at once, and it broke everywhere.</p>
+      <p>The outlets that remain are often shadows of their former selves. A paper that once employed thirty reporters may now have three. Coverage of city council meetings, school board decisions, and county court proceedings — the routine accountability journalism that local news existed to provide — has collapsed in parallel with the staffing levels.</p>
+      <h2>What the Research Shows</h2>
+      <p>Academic studies documenting the consequences of local news closure have accumulated rapidly since 2018. The findings are consistent and specific. Counties that lose their local newspaper see measurable increases in municipal borrowing costs — bond markets price the reduced accountability. Voter turnout in local elections declines. Incumbents win at higher rates in the absence of coverage scrutiny. Corruption charges against local officials drop — not because misconduct declines, but because no one is watching.</p>
+      <blockquote>"A city council can spend your tax money however it wants, and if no one is watching — no one literally in the room, week after week, who understands the budget — that has consequences," said one researcher at the University of North Carolina's Hussman School of Journalism and Media.</blockquote>
+      <h2>What Is Trying to Fill the Gap</h2>
+      <p>Nonprofit local news has emerged as a partial substitute. Over 400 nonprofit news organizations now operate across the country, many affiliated with the Institute for Nonprofit News. Several — The Texas Tribune, The Marshall Project, VTDigger in Vermont — have built substantial audiences and broken significant stories. They are also concentrated in larger, wealthier markets, leaving the smallest and most rural communities with the least coverage.</p>
+      <p>AI-generated content has been proposed as a low-cost supplement for routine coverage — meeting minutes, earnings reports, sports scores. The Associated Press has used automated reporting for years. But the routine coverage is often not what catches wrongdoing; it is the familiarity built through routine coverage that allows a reporter to notice when something is wrong. That pattern recognition does not automate.</p>
+      <h2>Policy Options and Their Limits</h2>
+      <p>Several states have enacted tax credits for local news subscriptions. Canada's federal government has provided direct subsidies to news organizations that meet certain criteria. The EU's journalism support frameworks vary by country but several include public interest grants. None of these programs are close to replacing the revenue lost to the platform shift. The question of what, if anything, can restore the local news ecosystem at the scale a functioning democracy arguably requires remains genuinely open.</p>
+    `,
+  },
+  {
+    slug: 'nuclear-energy-comeback',
+    title: 'Nuclear Energy Is Back — and This Time, the Math Might Work',
+    category: 'Analysis',
+    tags: ['Energy', 'Climate', 'Technology', 'Policy'],
+    author: 'Priya Nair',
+    authorBio: 'Priya Nair is a science journalist specializing in climate data and environmental policy.',
+    authorAvatar: 'PN',
+    date: 'February 28, 2026',
+    readingTime: '8 min read',
+    wordCount: 1600,
+    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'After decades of decline, nuclear power is seeing serious investment from governments and tech companies alike. Small modular reactors could change the economics entirely.',
+    relatedSlugs: ['climate-data-2026', 'ev-transition', 'commercial-space-race'],
+    content: `
+      <p>In September 2023, Microsoft signed a contract with Constellation Energy to restart Unit 1 of Three Mile Island — the reactor that had been shut down in 2019, on the same site as the 1979 partial meltdown that defined public perception of nuclear power for a generation. The deal was driven not by nostalgia but by one thing: Microsoft needed reliable, carbon-free electricity to power the data centers running its AI services, and nuclear was the only technology that could deliver it at scale.</p>
+      <p>That contract signaled something real. After forty years of decline in the United States, nuclear power is being reconsidered by people who were not previously considered nuclear advocates — and for reasons that are primarily practical rather than ideological.</p>
+      <h2>Why the Interest Has Returned</h2>
+      <p>The arithmetic of decarbonization is driving the reconsideration. Solar and wind power have fallen in cost dramatically and now represent the cheapest new electricity generation in most markets. But they are intermittent — they generate power when the sun shines and the wind blows, not necessarily when demand peaks. The grid needs firm, dispatchable, carbon-free power to balance the variability of renewables, and the candidates for that role are limited: hydro (geographically constrained), long-duration storage (not yet commercially viable at scale), and nuclear.</p>
+      <p>The explosion in AI computing has added a new dimension. Training large AI models requires enormous amounts of electricity continuously. Data center operators — Google, Amazon, Microsoft — are signing long-term power purchase agreements at prices and volumes that make previously uneconomic nuclear projects viable again.</p>
+      <h2>Small Modular Reactors: Promise and Reality</h2>
+      <p>The central technological bet being made by governments and investors is on small modular reactors (SMRs) — designs that are smaller than conventional plants, can be factory-manufactured in standardized modules, and promise lower construction costs and faster build times. NuScale, TerraPower, and X-energy are among the U.S. companies furthest along in development. The UK, Canada, and France have active SMR programs.</p>
+      <p>The promise is real; the delivery is not yet. NuScale's flagship project in Idaho was cancelled in late 2023 when cost estimates rose sharply. The history of nuclear construction is littered with projects that entered development at projected costs that proved wildly optimistic. Whether SMRs can break that pattern — by achieving the modular manufacturing efficiencies that the theory predicts — is the central unanswered question.</p>
+      <blockquote>"The economics of SMRs work beautifully on paper. The question is whether we can actually build the first ones without the cost overruns that killed the previous generation of large plants," said one energy economist at Resources for the Future.</blockquote>
+      <h2>The Safety Question and Public Perception</h2>
+      <p>The safety record of nuclear power is, by objective measures, better than its public reputation. Deaths per unit of energy produced from nuclear — including the worst accidents in history — are lower than from coal, oil, natural gas, and comparable to solar and wind. The fear of nuclear is psychologically understandable and politically durable. Whether it is proportionate to the actual risk relative to alternatives is a question that climate math is forcing more people to confront seriously.</p>
+      <h2>The Timeline Problem</h2>
+      <p>The largest constraint on nuclear's contribution to near-term decarbonization is time. Even optimistic projections put the first commercial SMR deployments in the early 2030s. Meeting the 2030 emissions targets that climate science identifies as critical requires deployment of technologies available now. Nuclear can be part of the solution for 2040 and beyond. Whether it arrives in time to matter for the most urgent near-term targets is genuinely uncertain.</p>
+    `,
+  },
+  {
+    slug: 'gig-economy-workers',
+    title: 'The Gig Economy at a Crossroads: Flexibility, Exploitation, or Both?',
+    category: 'Features',
+    tags: ['Economy', 'Labor', 'Policy', 'Technology'],
+    author: 'Chris Okafor',
+    authorBio: 'Chris Okafor covers business, economics, and urban policy. He previously reported for Bloomberg and the Financial Times.',
+    authorAvatar: 'CO',
+    date: 'February 24, 2026',
+    readingTime: '7 min read',
+    wordCount: 1400,
+    image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'Sixty million Americans do some form of gig work. A decade of legal battles over their status is finally producing clarity — and the results are mixed for everyone.',
+    relatedSlugs: ['remote-work-culture', 'housing-crisis-2026', 'startup-funding-q1'],
+    content: `
+      <p>Approximately 60 million Americans earned income from gig or freelance work in 2025 — a number that includes everyone from a surgeon moonlighting on expert consultation platforms to a single mother driving for DoorDash between shifts at a restaurant. Treating those two workers as members of the same economic category has been one of the persistent distortions in a debate that has been generating more heat than light for a decade.</p>
+      <h2>The Debate That Wouldn't Settle</h2>
+      <p>The legal question at the center of the gig economy debate — are platform workers employees or independent contractors? — has been litigated across dozens of jurisdictions and produced contradictory answers. California's Proposition 22, which passed in 2020 and classified app-based drivers as independent contractors with limited benefits, was upheld by the state supreme court in 2024. The EU's Platform Work Directive, passed in 2024, established a legal presumption of employment status for workers who meet certain criteria, shifting the burden of proof onto platforms.</p>
+      <p>The result is a patchwork that serves no one particularly well. Workers in some jurisdictions have won minimum earnings guarantees and expense reimbursements. Workers elsewhere have won nothing. Platforms have invested enormous resources in legal strategy that could have gone toward worker benefits. The underlying question — how to protect workers in flexible employment arrangements without eliminating the flexibility — remains genuinely unresolved.</p>
+      <h2>What Workers Actually Report</h2>
+      <p>Survey research on gig workers consistently finds a distribution of experiences that defies simple narratives. Roughly a third of gig workers describe their work as their primary income source and report significant financial precarity — no benefits, unpredictable earnings, exposure to platform algorithm changes that can cut income overnight. Another third describe gig work as supplemental income that provides genuine flexibility valued more than the benefits they're missing. The final third are higher-earning professionals using platforms to command premium rates for specialized skills.</p>
+      <blockquote>"The person who drives Uber because they have no other options and the graphic designer who uses Upwork to set their own schedule have almost nothing in common economically. Policy that treats them identically is going to be wrong for at least one of them," said one labor economist at MIT.</blockquote>
+      <h2>What the Platforms Have Won and Lost</h2>
+      <p>The major platform companies have been more successful at legal defense than at winning public opinion. Uber, Lyft, and DoorDash spent over $200 million on the California Prop 22 campaign alone — a figure that illustrates how central the independent contractor classification is to their business model. Fully converting their workforces to employment status would add costs that their current pricing structures cannot absorb without significant fare increases or service reductions.</p>
+      <p>The platforms have also made genuine investments in portable benefits programs — limited health insurance subsidies, accident coverage, earnings guarantees — that fall short of employment benefits but represent more than zero. Whether these programs are good-faith efforts to improve worker welfare or strategic minimum commitments designed to forestall regulation depends on who you ask, and the answer is probably both.</p>
+      <h2>Where This Goes</h2>
+      <p>The most likely near-term outcome is continued jurisdictional fragmentation, with the EU and certain U.S. states moving toward stronger worker protections while other jurisdictions maintain the current framework. Federal legislation that could establish a national standard remains stalled. In the absence of political resolution, courts, ballot initiatives, and regulatory agencies will continue making the decisions that Congress has declined to make — a process that will take years and satisfy almost no one.</p>
+    `,
+  },
+  {
+    slug: 'college-athletics-nil',
+    title: 'NIL Changed College Sports. Now What?',
+    category: 'Features',
+    tags: ['Sports', 'Education', 'Business', 'Policy'],
+    author: 'Alex Reyes',
+    authorBio: 'Alex Reyes is a sports journalist and culture writer covering the business of athletics and its intersection with society.',
+    authorAvatar: 'AR',
+    date: 'February 20, 2026',
+    readingTime: '7 min read',
+    wordCount: 1350,
+    image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=1200&q=80',
+    excerpt: "Four years after the NCAA allowed athletes to profit from their name, image, and likeness, college sports look unrecognizable. Not everyone is sure that's a good thing.",
+    relatedSlugs: ['womens-sports-boom', 'esports-mainstream', 'startup-funding-q1'],
+    content: `
+      <p>In July 2021 the NCAA reversed decades of policy and allowed college athletes to earn money from their name, image, and likeness — the rights to appear in advertisements, sign endorsements, and monetize their social media followings. The stated goal was fairness: athletes were generating billions in revenue for universities and coaches while being prohibited from earning anything themselves. Four years on, the policy has achieved that goal in part, created a new set of problems no one fully anticipated, and transformed the business of college athletics into something that looks increasingly like a professional league in amateur clothing.</p>
+      <h2>Who Is Making Money — and How Much</h2>
+      <p>A small number of athletes are making life-changing sums. The top 50 college athletes by NIL value — a list dominated by football and basketball players at major programs — earned an estimated $50 million combined in 2025. Quarterback Arch Manning of Texas became the first college athlete to sign a NIL deal reportedly worth over $6 million in a single year.</p>
+      <p>Below that top tier, the picture is more modest. The average NIL earnings for a Division I athlete with any deals at all is approximately $2,200 per year — real money for a college student, but not the transformative wealth the headlines suggest. And the distribution follows the same patterns as everything else in college sports: men's football and basketball players at Power Five schools capture the overwhelming majority of value. Women's athletes in non-revenue sports earn a fraction of that, with the notable exception of the growing pool of elite women's basketball players.</p>
+      <h2>The Transfer Portal Has Become the Free Agent Market</h2>
+      <p>NIL changed what athletes could earn. The simultaneous relaxation of transfer rules changed where they could earn it. The transfer portal — the database through which athletes officially notify their school of intent to transfer — processed over 25,000 entries in the 2024-25 academic year. Coaches now recruit from the portal as aggressively as from high schools, offering NIL packages as signing incentives in what looks functionally identical to professional free agency.</p>
+      <blockquote>"We built a system that is the NFL without the salary cap, the CBA, or any of the governance structures that make professional sports function. We're learning what that looks like in real time," said one athletic director at a major program who asked not to be named.</blockquote>
+      <h2>The Competitive Imbalance Question</h2>
+      <p>Critics argued before NIL that the existing system already produced unsustainable competitive imbalance, with a handful of programs winning everything. The post-NIL data doesn't clearly show that imbalance has worsened — but it has changed who controls it. Boosters organized into NIL collectives now openly direct recruiting by committing to pay specific athletes specific amounts to attend specific schools. The NCAA, which lacks the authority to regulate collectives as third parties, has largely watched this develop without the ability to intervene.</p>
+      <h2>What Comes Next</h2>
+      <p>The House v. NCAA settlement, finalized in 2025, goes further than NIL — it allows schools to directly share revenue with athletes for the first time, up to a $22 million annual cap per school. Implementation begins in 2025-26. This structural shift — from third-party NIL deals to direct school-athlete revenue sharing — is the most significant change to college athletics since the scholarship system was formalized. What it produces is the question the next five years will answer.</p>
+    `,
+  },
+  {
+    slug: 'water-scarcity',
+    title: 'The Water Crisis the West Is Not Ready For',
+    category: 'Analysis',
+    tags: ['Environment', 'Climate', 'Policy', 'Infrastructure'],
+    author: 'Priya Nair',
+    authorBio: 'Priya Nair is a science journalist specializing in climate data and environmental policy.',
+    authorAvatar: 'PN',
+    date: 'February 16, 2026',
+    readingTime: '8 min read',
+    wordCount: 1550,
+    image: 'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=1200&q=80',
+    excerpt: "Lake Mead hit record lows three years running. The Colorado River Compact that governs the West's water was written in 1922. The collision between those two facts is now arriving.",
+    relatedSlugs: ['climate-data-2026', 'housing-crisis-2026', 'immigration-debate-2026'],
+    content: `
+      <p>Lake Mead, the reservoir on the Colorado River that supplies water to 25 million people in Nevada, Arizona, California, and northern Mexico, fell to 27% capacity in 2022 — a record low. It has partially recovered since then, but the underlying hydrology has not changed. The Colorado River is overallocated by approximately 20% relative to its actual average flow — meaning the river's water has been legally promised to more users than the river can actually supply, a problem that has been building for decades and is now inescapable.</p>
+      <h2>How the System Was Built to Fail</h2>
+      <p>The Colorado River Compact, signed in 1922, divided the river's water among seven U.S. states and Mexico based on flow estimates made during one of the wettest decades in the river's history. Scientists now know that the early 20th century was anomalously wet by historical standards. The baseline was wrong from the beginning. For decades that didn't matter much because agricultural and urban demand was also modest. As the West grew and the climate dried, the gap between allocation and reality became impossible to ignore.</p>
+      <p>Agriculture accounts for approximately 80% of Colorado River water use. The crops most dependent on that water — alfalfa, cotton, and other water-intensive commodities — are often grown in desert climates specifically because water rights are cheap and abundant by historical accident. The Imperial Valley in California, which receives more Colorado River water than the entire state of Nevada, grows crops that use enormous amounts of water on land that receives essentially no rainfall.</p>
+      <h2>The Renegotiation</h2>
+      <p>The seven states that share the Colorado have been in formal renegotiation of their water agreements since 2023. Progress has been slow. Each state's allocation represents enormous economic interests that their representatives cannot easily surrender — farms, cities, golf courses, and industries that exist because the water was available. The federal government has used the threat of involuntary cuts to force cooperation, with limited success.</p>
+      <blockquote>"The conversations I'm having now are conversations we should have been having thirty years ago. We're negotiating under crisis conditions, which is the worst way to make decisions of this magnitude," said one longtime water policy advisor in the Basin states.</blockquote>
+      <h2>What Cities Are Doing</h2>
+      <p>Las Vegas has reduced its per-capita water consumption by 47% since 2002 while its population grew by 700,000 people. The Southern Nevada Water Authority has achieved this through mandatory landscaping restrictions, tiered pricing that penalizes heavy use, and a remarkable recycling program that recaptures virtually all indoor water use and returns it to Lake Mead. The result is a city in the desert that now uses less water per person than most comparable U.S. cities.</p>
+      <p>Phoenix, Tucson, and other Southwestern cities have made similar progress but start from higher baseline use. The urban water story is, on balance, one of genuine conservation success. The problem is that cities account for only 20% of river use. Making cities twice as efficient doesn't solve an agricultural system that was designed around a water supply that no longer exists.</p>
+      <h2>The Long View</h2>
+      <p>Climate projections for the Colorado River Basin under the most likely warming scenarios show continued aridification through the century. The models suggest the river's average flow will decline by 20-30% from 20th-century levels even under moderate warming. Building a sustainable water future for the American West requires reckoning with what that means for where people live, what they grow, and what they pay for the water that remains — conversations that are more politically difficult than any of the technical solutions.</p>
+    `,
+  },
+  {
+    slug: 'crypto-after-crash',
+    title: "Crypto After the Crash: What Survived, What Didn't, and What's Next",
+    category: 'Analysis',
+    tags: ['Cryptocurrency', 'Finance', 'Technology', 'Markets'],
+    author: 'Avery King',
+    authorBio: 'Avery King is a senior financial analyst with 12 years of experience covering global markets and macroeconomic trends.',
+    authorAvatar: 'AK',
+    date: 'February 12, 2026',
+    readingTime: '7 min read',
+    wordCount: 1400,
+    series: 'Quarterly Market Reports',
+    image: 'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'The 2022 crypto collapse wiped out $2 trillion in value and sent several major players to prison. Three years later, something is still standing — and regulators are finally paying attention.',
+    relatedSlugs: ['market-outlook-q2', 'startup-funding-q1', 'cybersecurity-threats'],
+    content: `
+      <p>In November 2021, the total market capitalization of cryptocurrency markets reached $3 trillion. By November 2022 it had fallen to $800 billion — a destruction of value faster and larger than the dot-com collapse. FTX, the exchange founded by Sam Bankman-Fried and briefly valued at $32 billion, collapsed in seventy-two hours. Terra Luna's algorithmic stablecoin imploded, wiping out $40 billion. Celsius, Voyager, and BlockFi filed for bankruptcy in rapid succession. The wreckage was spectacular.</p>
+      <p>By early 2026, Bitcoin has recovered to near its 2021 all-time highs, driven in part by the approval of Bitcoin spot ETFs in January 2024 — a decision that brought hundreds of billions in institutional investment into the asset class for the first time. The recovery is real. Whether it represents a maturation of the technology or another cycle of speculative excess is the central question the industry has not yet answered.</p>
+      <h2>What the Crash Revealed</h2>
+      <p>The 2022 collapse was not primarily a technology failure. Bitcoin and Ethereum continued operating through the entire crisis without interruption. What failed were the intermediaries built around them — centralized exchanges and lending platforms that took on risks their customers didn't understand and, in several cases, were actively misled about. Bankman-Fried's conviction on seven counts of fraud and his sentence of twenty-five years in prison established definitively that some of what happened was not merely reckless — it was criminal.</p>
+      <p>The episode produced a clarifying lesson that critics had argued for years: the decentralization that cryptocurrency proponents cite as the system's core value was largely theoretical in practice. Most users held their crypto through centralized intermediaries indistinguishable in their risk profiles from unregulated banks. The lesson was expensive.</p>
+      <h2>Regulation Finally Arrives</h2>
+      <p>The crash produced the political will for regulation that years of advocacy had not. The EU's Markets in Crypto-Assets Regulation (MiCA) took full effect in late 2024, establishing the first comprehensive framework for crypto markets among major economies. U.S. regulatory clarity, which had been paralyzed by turf battles between the SEC and CFTC, has begun to resolve — the Financial Innovation and Technology for the 21st Century Act (FIT21) passed in 2025, establishing clearer jurisdictional lines and registration requirements.</p>
+      <blockquote>"Regulation wasn't the enemy of crypto. Absence of regulation was. The projects that survive long-term will be the ones that operate under clear rules, not despite them," said one compliance officer at a major U.S. crypto exchange.</blockquote>
+      <h2>What Use Cases Have Held Up</h2>
+      <p>Beyond speculation, the applications that have demonstrated genuine utility are narrower than the 2021 bull market suggested but more real than the post-crash skeptics claimed. Cross-border payments and remittances remain a genuine use case in markets where banking infrastructure is weak. Tokenization of real-world assets — real estate, bonds, private equity — is attracting serious institutional interest. Stablecoins processed $27 trillion in transaction volume in 2025, exceeding Visa and Mastercard combined, primarily serving as settlement infrastructure for crypto trading.</p>
+      <p>The broader vision of decentralized finance replacing traditional banking has not materialized on any meaningful timeline. But the infrastructure being built during this consolidation phase — more robust, more regulated, and more connected to traditional financial rails — is a different thing from what was being sold in 2021, and arguably a more defensible one.</p>
+    `,
+  },
+  {
+    slug: 'opioid-crisis-aftermath',
+    title: 'After the Lawsuits: How America Is Using $50 Billion to Fight the Opioid Crisis',
+    category: 'Health',
+    tags: ['Health', 'Policy', 'Society', 'Investigation'],
+    author: 'Taylor Brooks',
+    authorBio: 'Taylor Brooks reports on education, inequality, and social policy. Based in Washington, D.C.',
+    authorAvatar: 'TB',
+    date: 'February 8, 2026',
+    readingTime: '9 min read',
+    wordCount: 1750,
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'The opioid settlement money is flowing. Whether it reaches the communities that need it most — or disappears into general state budgets — depends on decisions being made right now.',
+    relatedSlugs: ['loneliness-epidemic', 'student-loan-crisis', 'policy-report'],
+    content: `
+      <p>More than 500,000 Americans died of opioid overdoses between 1999 and 2023. The litigation that held pharmaceutical manufacturers and distributors accountable for their role in that crisis produced settlements totaling more than $50 billion — the largest public health settlement in American history, exceeding the 1998 tobacco master settlement agreement. The money is now flowing to states and municipalities. What happens next is one of the most important and least-covered public health policy stories in the country.</p>
+      <h2>Where the Money Came From</h2>
+      <p>The settlement landscape is complex. Purdue Pharma, the maker of OxyContin, agreed to a settlement — contested all the way to the Supreme Court — that will provide approximately $6 billion to abatement programs. Johnson and Johnson settled for $5 billion. The three major drug distributors — McKesson, Cardinal Health, and AmerisourceBergen — settled for a combined $21 billion. Walgreens settled for $5.7 billion. CVS for $5 billion. Walmart for $3.1 billion.</p>
+      <p>Most settlements direct funds specifically to opioid abatement programs — treatment, harm reduction, and prevention — rather than general state budgets. The lesson of the tobacco settlement, where states spent hundreds of millions intended for anti-smoking programs on unrelated budget items, was explicitly factored into settlement design. Whether that structural protection holds in practice is being tested in real time.</p>
+      <h2>What the Money Is Supposed to Fund</h2>
+      <p>The settlement documents describe "approved uses" in remarkable specificity. Treatment for opioid use disorder — including medication-assisted treatment with buprenorphine and methadone — is the top priority. Recovery housing and wraparound support services follow. Harm reduction programs including naloxone distribution, fentanyl test strips, and needle exchanges are listed. Prevention education and first responder training are included.</p>
+      <p>Medications for addiction treatment are highly effective — far more effective than the abstinence-only approaches that still dominate many treatment programs. Studies consistently show that buprenorphine and methadone reduce overdose mortality by 50% or more. If the settlement funds are directed toward scaling medication-assisted treatment in communities that currently lack access, the public health return could be significant.</p>
+      <blockquote>"For the first time in twenty years, we have resources that match the scale of the problem. What we need now is the will to spend them on what works rather than what's politically comfortable," said one addiction medicine physician in West Virginia, one of the states hit hardest by the crisis.</blockquote>
+      <h2>Where the Problems Are</h2>
+      <p>Early tracking of fund deployment reveals concerning patterns. Some states have directed settlement funds toward law enforcement programs — drug task forces, sober living monitoring — rather than treatment. Several municipalities have used "abatement" language to justify spending on recovery programs that exclude people currently using drugs, which research suggests is counterproductive for reaching the highest-need populations.</p>
+      <p>The rural communities with the highest overdose rates often have the weakest infrastructure to absorb and deploy new funding. A rural county that has never had a licensed addiction treatment facility cannot simply build one with a settlement check — it needs trained staff, regulatory approvals, and community relationships that take years to develop. Money arriving faster than capacity can absorb it creates its own problems.</p>
+      <h2>The Fentanyl Complication</h2>
+      <p>The crisis that the settlements were designed to address has transformed during the years of litigation. The opioid epidemic of 2010 was driven primarily by prescription painkillers. The epidemic of 2026 is driven primarily by illicitly manufactured fentanyl and its analogs — a substance that is 50 to 100 times more potent than morphine and is now present in the vast majority of the drug supply, including in stimulants and benzodiazepines. Programs designed for a prescription opioid crisis are only partially suited to a fentanyl crisis. The settlement money is the right magnitude. Whether it is deployed against the right problem depends on decisions being made in state capitals and county courthouses across the country right now.</p>
+    `,
+  },
 ];
