@@ -15,6 +15,26 @@
 </head>
 <body>
 
+  <!-- Search Modal -->
+  <div id="search-modal" class="search-modal hidden" role="dialog" aria-modal="true" aria-label="Search articles">
+    <div class="search-modal-backdrop" id="search-backdrop"></div>
+    <div class="search-modal-box">
+      <div class="search-modal-input-wrap">
+        <span class="search-modal-icon">🔍</span>
+        <input id="search-modal-input" class="search-modal-input" type="search" placeholder="Search articles, authors, topics…" autocomplete="off" aria-label="Search" />
+        <button class="search-modal-esc" id="search-modal-close" type="button">Esc</button>
+      </div>
+      <div id="search-modal-results" class="search-modal-results">
+        <p class="search-modal-empty">Start typing to search…</p>
+      </div>
+      <div class="search-modal-footer">
+        <span><kbd>↑↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <span><kbd>Esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav-overlay" id="mobile-overlay"></div>
   <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
@@ -47,6 +67,14 @@
       <a href="https://github.com/Jayyy-FTHS" target="_blank" rel="noreferrer noopener" class="icon-btn" title="GitHub profile" aria-label="GitHub profile">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
       </a>
+      <!-- Search hint -->
+      <button id="search-modal-btn" class="search-hint" type="button" aria-label="Search articles" title="Search (/)">
+        🔍 <kbd>⌘K</kbd>
+      </button>
+      <!-- Bookmarks -->
+      <button id="bookmarks-btn" class="icon-btn" title="View saved articles" aria-label="Saved articles" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+      </button>
       <!-- High Contrast -->
       <button id="contrast-toggle" class="icon-btn" title="Toggle high contrast" aria-label="Toggle high contrast" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2V4a8 8 0 100 16z"/></svg>
@@ -66,6 +94,17 @@
   <!-- Toast Container -->
   <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
+  <!-- Bookmarks Panel -->
+  <div id="bookmarks-panel" class="bookmarks-panel" role="dialog" aria-modal="true" aria-label="Saved articles" hidden>
+    <div class="bookmarks-panel-header">
+      <h3>🔖 Saved Articles</h3>
+      <button id="bookmarks-close" class="bookmarks-close" type="button" aria-label="Close bookmarks">✕</button>
+    </div>
+    <ul id="bookmarks-list" class="bookmarks-list"></ul>
+    <p id="bookmarks-empty" class="bookmarks-empty hidden">No bookmarks yet — save articles with the 🔖 button.</p>
+  </div>
+  <div id="bookmarks-overlay" class="bookmarks-overlay hidden"></div>
+
   <!-- Scroll to Top -->
   <button id="scroll-top" aria-label="Scroll to top" type="button">↑</button>
 
@@ -80,6 +119,7 @@
         <div class="hero-actions">
           <a href="#latest" class="btn btn-primary">Browse all stories</a>
           <a href="#newsletter" class="btn btn-secondary">Subscribe free</a>
+            <button type="button" class="btn btn-ghost" id="surprise-btn">🎲 Surprise me</button>
           <a href="https://github.com/Jayyy-FTHS/Jayyy-s_Articles" target="_blank" rel="noreferrer noopener" class="btn btn-ghost">View source ↗</a>
         </div>
       </div>
@@ -99,45 +139,23 @@
       </div>
     </section>
 
-    <!-- STATS BAR -->
-    <section class="stats-bar reveal" aria-label="Publication statistics">
-      <div class="stat-card reveal reveal-delay-1">
-        <div class="stat-number" id="stats-total">0</div>
-        <div class="stat-label">Total Articles</div>
-      </div>
-      <div class="stat-card reveal reveal-delay-2">
-        <div class="stat-number" id="stats-authors">0</div>
-        <div class="stat-label">Expert Authors</div>
-      </div>
-      <div class="stat-card reveal reveal-delay-3">
-        <div class="stat-number" id="stats-categories">0</div>
-        <div class="stat-label">Categories</div>
-      </div>
-      <div class="stat-card reveal reveal-delay-4">
-        <div class="stat-number" id="stats-tags">0</div>
-        <div class="stat-label">Unique Tags</div>
-      </div>
-    </section>
+    <!-- CATEGORY TABS -->
+    <nav id="category-tabs" class="category-tabs reveal" aria-label="Browse by category">
+      <span class="tabs-label">Browse:</span>
+      <button class="cat-tab active" data-cat="" type="button">All</button>
+    </nav>
 
-    <!-- FEATURED -->
-    <section id="featured" class="featured-card hidden reveal" aria-label="Featured story"></section>
+    <!-- PAGE LAYOUT: 2 COLUMNS -->
+    <div class="page-layout">
 
-    <!-- MOST READ -->
-    <section id="most-read" class="most-read-card reveal" aria-labelledby="most-read-heading">
-      <div class="eyebrow">Trending</div>
-      <h2 id="most-read-heading">Most Read</h2>
-      <ul id="most-read-list" class="most-read-list" aria-label="Most read articles"></ul>
-    </section>
+      <!-- MAIN COLUMN -->
+      <div class="main-col">
 
-    <!-- TAG CLOUD -->
-    <section class="tag-cloud-card reveal" aria-labelledby="tags-heading">
-      <div class="eyebrow">Browse by Topic</div>
-      <h2 id="tags-heading">Trending Tags</h2>
-      <div id="tag-cloud" class="tag-cloud" role="list" aria-label="Article tags"></div>
-    </section>
+        <!-- FEATURED -->
+        <section id="featured" class="featured-card hidden reveal" aria-label="Featured story"></section>
 
-    <!-- ARTICLE LIST -->
-    <section id="latest" class="list-card reveal" aria-labelledby="articles-heading">
+        <!-- ARTICLE LIST -->
+        <section id="latest" class="list-card reveal" aria-labelledby="articles-heading">
       <div class="list-header">
         <div>
           <div class="eyebrow">Latest Stories</div>
@@ -180,6 +198,15 @@
             <option value="">All authors</option>
           </select>
         </div>
+          <div class="filter-group">
+            <label for="readtime-filter" class="filter-label">Length</label>
+            <select id="readtime-filter" class="filter-input" aria-label="Filter by reading time">
+              <option value="">Any length</option>
+              <option value="short">Quick (&lt; 5 min)</option>
+              <option value="medium">Medium (5–9 min)</option>
+              <option value="long">Long (10+ min)</option>
+            </select>
+          </div>
       </div>
 
       <div class="sort-row">
@@ -209,6 +236,64 @@
 
       <div id="pagination-controls" class="pagination-controls" role="navigation" aria-label="Article pagination"></div>
     </section>
+
+      </div><!-- /.main-col -->
+
+      <!-- SIDEBAR COLUMN -->
+      <aside class="sidebar-col">
+
+        <!-- STATS -->
+        <section class="stats-bar reveal" aria-label="Publication statistics">
+          <div class="stat-card reveal">
+            <div class="stat-number" id="stats-total">0</div>
+            <div class="stat-label">Articles</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-number" id="stats-authors">0</div>
+            <div class="stat-label">Authors</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-number" id="stats-categories">0</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-number" id="stats-tags">0</div>
+            <div class="stat-label">Tags</div>
+          </div>
+        </section>
+
+        <!-- MOST READ -->
+        <section id="most-read" class="most-read-card reveal" aria-labelledby="most-read-heading">
+          <div class="eyebrow">Trending</div>
+          <h2 id="most-read-heading">Most Read</h2>
+          <ul id="most-read-list" class="most-read-list" aria-label="Most read articles"></ul>
+        </section>
+
+        <!-- RECENTLY VIEWED -->
+        <section id="recently-viewed" class="recently-viewed-card reveal hidden" aria-labelledby="recently-viewed-heading">
+          <div class="eyebrow">Your History</div>
+          <h2 id="recently-viewed-heading">Recently Viewed</h2>
+          <ul id="recently-viewed-list" class="recently-viewed-list" aria-label="Recently viewed articles"></ul>
+        </section>
+
+        <!-- TAG CLOUD -->
+        <section class="tag-cloud-card reveal" aria-labelledby="tags-heading">
+          <div class="eyebrow">Browse by Topic</div>
+          <h2 id="tags-heading">Trending Tags</h2>
+          <div id="tag-cloud" class="tag-cloud" role="list" aria-label="Article tags"></div>
+        </section>
+
+        <!-- SIDEBAR NEWSLETTER -->
+        <div class="sidebar-newsletter reveal">
+          <h3>📬 Stay Updated</h3>
+          <p>Get new stories delivered to your inbox. No spam, unsubscribe anytime.</p>
+          <input id="sidebar-nl-email" class="sidebar-nl-input" type="email" placeholder="your@email.com" autocomplete="email" />
+          <button id="sidebar-nl-btn" class="sidebar-nl-btn" type="button">Subscribe free →</button>
+        </div>
+
+      </aside><!-- /.sidebar-col -->
+
+    </div><!-- /.page-layout -->
 
     <!-- ABOUT -->
     <section id="about" class="info-card reveal" aria-labelledby="about-heading">

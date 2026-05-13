@@ -8,6 +8,7 @@ const emptyState      = document.getElementById('empty-state');
 const categoryFilter  = document.getElementById('category-filter');
 const tagFilter       = document.getElementById('tag-filter');
 const authorFilter    = document.getElementById('author-filter');
+const readtimeFilter  = document.getElementById('readtime-filter');
 const searchInput     = document.getElementById('search-input');
 const searchCount     = document.getElementById('search-count');
 const clearFiltersBtn = document.getElementById('clear-filters');
@@ -31,6 +32,10 @@ const mostReadList    = document.getElementById('most-read-list');
 const tagCloud        = document.getElementById('tag-cloud');
 const listViewBtn     = document.getElementById('list-view-btn');
 const gridViewBtn     = document.getElementById('grid-view-btn');
+const categoryTabsEl  = document.getElementById('category-tabs');
+const searchModalEl   = document.getElementById('search-modal');
+const searchModalInput = document.getElementById('search-modal-input');
+const searchModalResults = document.getElementById('search-modal-results');
 
 // ── State ────────────────────────────────────────────────────
 const PAGE_SIZE = 6;
@@ -224,11 +229,44 @@ function toggleBookmark(slug) {
 }
 function isBookmarked(slug) { return getBookmarks().includes(slug); }
 
+// ── Feature 32: Article Likes ────────────────────────────────
+function getLikes(slug) {
+  try { return parseInt(localStorage.getItem(`likes-${slug}`) || '0', 10); } catch { return 0; }
+}
+function isLiked(slug) {
+  return localStorage.getItem(`liked-${slug}`) === '1';
+}
+function toggleLike(slug) {
+  const liked = isLiked(slug);
+  if (liked) {
+    localStorage.setItem(`likes-${slug}`, String(Math.max(0, getLikes(slug) - 1)));
+    localStorage.removeItem(`liked-${slug}`);
+  } else {
+    localStorage.setItem(`likes-${slug}`, String(getLikes(slug) + 1));
+    localStorage.setItem(`liked-${slug}`, '1');
+  }
+  document.querySelectorAll(`.like-btn[data-slug="${slug}"]`).forEach(btn => {
+    btn.classList.toggle('liked', isLiked(slug));
+    const countEl = btn.querySelector('.like-count');
+    if (countEl) countEl.textContent = getLikes(slug) || '';
+  });
+  showToast(isLiked(slug) ? 'Article liked!' : 'Like removed', 'info', 1800);
+}
+window.toggleLike = toggleLike;
+
 // ── Feature 12: "New" Badge (< 7 days) ───────────────────────
 function isNew(dateStr) {
   if (!dateStr) return false;
   const published = new Date(dateStr);
   return (Date.now() - published.getTime()) < 7 * 24 * 60 * 60 * 1000;
+}
+
+// ── Feature 32b: Read Indicator ──────────────────────────────
+function isRead(slug) {
+  try {
+    const viewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    return viewed.includes(slug);
+  } catch { return false; }
 }
 
 // ── Feature 13: Filter Rendering ─────────────────────────────
@@ -282,15 +320,22 @@ function applyFilters() {
   const category = categoryFilter.value;
   const tag      = tagFilter.value;
   const author   = authorFilter.value;
+  const readtime = readtimeFilter ? readtimeFilter.value : '';
 
   filteredArticles = articles.filter(a => {
     const haystack = [a.title, a.excerpt, a.author, a.category, ...(a.tags || []), a.series]
       .filter(Boolean).join(' ').toLowerCase();
+    const mins = parseInt(a.readingTime || '0', 10);
+    const rtMatch = !readtime ||
+      (readtime === 'short'  && mins < 5) ||
+      (readtime === 'medium' && mins >= 5 && mins < 10) ||
+      (readtime === 'long'   && mins >= 10);
     return (
       (!search || haystack.includes(search)) &&
       (!category || a.category === category) &&
       (!tag || (a.tags || []).includes(tag)) &&
-      (!author || a.author === author)
+      (!author || a.author === author) &&
+      rtMatch
     );
   });
 
@@ -344,20 +389,27 @@ function renderArticleCards() {
     const newBadge    = isNew(article.date) ? '<span class="badge-new">New</span>' : '';
     const seriesBadge = article.series ? `<span class="tag-pill" style="background:var(--accent-light);color:var(--accent);">📚 ${article.series}</span>` : '';
 
+    const readBadge  = isRead(article.slug) ? '<span class="badge-read">✓ Read</span>' : '';
+    const likeCount  = getLikes(article.slug);
+    const liked      = isLiked(article.slug);
+    const imgHtml    = article.image
+      ? `<div class="article-item-img" style="background-image:url('${article.image}')" aria-hidden="true"></div>`
+      : '';
+
     const li = document.createElement('li');
-    li.className = `article-item reveal reveal-delay-${(idx % 4) + 1}`;
+    li.className = `article-item ${article.image ? 'article-item-with-img' : ''} reveal reveal-delay-${(idx % 4) + 1}`;
     li.innerHTML = `
+      ${imgHtml}
       <div class="article-item-copy">
         <div class="article-metadata">
           <a class="category-badge" href="#" onclick="setCategoryFilter('${article.category}');return false;">${article.category}</a>
-          ${newBadge}
+          ${newBadge}${readBadge}
           <span class="meta-dot">·</span>
           <span>${article.author}</span>
           <span class="meta-dot">·</span>
           <span>${article.date}</span>
           <span class="meta-dot">·</span>
           <span>${article.readingTime}</span>
-          ${article.wordCount ? `<span class="meta-dot">·</span><span>${article.wordCount.toLocaleString()} words</span>` : ''}
         </div>
         <a class="article-link" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>${article.title}</a>
         <p class="article-excerpt">${article.excerpt || ''}</p>
@@ -368,7 +420,10 @@ function renderArticleCards() {
       </div>
       <div class="article-right">
         <a class="btn btn-sm btn-secondary" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>Read →</a>
-        <button class="bookmark-btn ${bookmarked ? 'bookmarked' : ''}" data-slug="${article.slug}" type="button" title="${bookmarked ? 'Remove bookmark' : 'Bookmark this article'}" aria-label="${bookmarked ? 'Remove bookmark' : 'Bookmark'}">
+        <button class="like-btn ${liked ? 'liked' : ''}" data-slug="${article.slug}" type="button" aria-label="Like article" title="Like">
+          <span class="like-heart">${liked ? '♥' : '♡'}</span><span class="like-count">${likeCount || ''}</span>
+        </button>
+        <button class="bookmark-btn ${bookmarked ? 'bookmarked' : ''}" data-slug="${article.slug}" type="button" title="${bookmarked ? 'Remove bookmark' : 'Save article'}" aria-label="${bookmarked ? 'Remove bookmark' : 'Save'}">
           ${bookmarked ? '🔖' : '🔖'}
         </button>
       </div>
@@ -376,6 +431,8 @@ function renderArticleCards() {
 
     // Bookmark click
     li.querySelector('.bookmark-btn:not(.btn)').addEventListener('click', () => toggleBookmark(article.slug));
+    // Like click
+    li.querySelector('.like-btn').addEventListener('click', () => toggleLike(article.slug));
 
     articleList.appendChild(li);
   });
@@ -522,18 +579,30 @@ function populateSubscribe() {
 
 // ── Feature 22: Keyboard Shortcuts ───────────────────────────
 function handleKeyboard(e) {
-  if (e.key === '/' && document.activeElement !== searchInput && !e.ctrlKey && !e.metaKey) {
+  if ((e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) && document.activeElement !== searchModalInput) {
     e.preventDefault();
-    searchInput.focus();
-    searchInput.select();
-    showToast('Search activated — type to filter articles', 'info', 2000);
+    openSearchModal();
   }
   if (e.key === 'Escape') {
-    if (document.activeElement === searchInput && searchInput.value) {
+    if (searchModalEl && !searchModalEl.classList.contains('hidden')) {
+      closeSearchModal();
+    } else if (document.activeElement === searchInput && searchInput.value) {
       searchInput.value = '';
       applyFilters();
     }
     closeMenu();
+  }
+  if (e.key === 'ArrowDown' && searchModalEl && !searchModalEl.classList.contains('hidden')) {
+    e.preventDefault();
+    navigateSearchResults(1);
+  }
+  if (e.key === 'ArrowUp' && searchModalEl && !searchModalEl.classList.contains('hidden')) {
+    e.preventDefault();
+    navigateSearchResults(-1);
+  }
+  if (e.key === 'Enter' && searchModalEl && !searchModalEl.classList.contains('hidden') && searchModalFocusIdx >= 0) {
+    const focused = searchModalResults.querySelector('.search-result-item.focused');
+    if (focused) { focused.click(); closeSearchModal(); }
   }
 }
 
@@ -595,6 +664,7 @@ function clearFilters() {
   categoryFilter.value = '';
   tagFilter.value = '';
   authorFilter.value = '';
+  if (readtimeFilter) readtimeFilter.value = '';
   document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('[data-sort="newest"]').classList.add('active');
   currentSort = 'newest';
@@ -611,6 +681,212 @@ function initPrefChips() {
       const input = chip.querySelector('input');
       chip.classList.toggle('selected', input.checked);
     });
+  });
+}
+
+// ── Feature 29b: Surprise Me ──────────────────────────────────
+function surpriseMe() {
+  if (!articles.length) return;
+  const article = articles[Math.floor(Math.random() * articles.length)];
+  const url = article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`;
+  if (article.externalUrl) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } else {
+    window.location.href = url;
+  }
+}
+window.surpriseMe = surpriseMe;
+
+// ── Feature 30: Recently Viewed ──────────────────────────────
+function getRecentlyViewed() {
+  try { return JSON.parse(localStorage.getItem('recentlyViewed') || '[]'); } catch { return []; }
+}
+
+function renderRecentlyViewed() {
+  const section = document.getElementById('recently-viewed');
+  const list = document.getElementById('recently-viewed-list');
+  if (!section || !list) return;
+
+  const slugs = getRecentlyViewed();
+  const viewed = slugs
+    .map(s => articles.find(a => a.slug === s))
+    .filter(Boolean)
+    .slice(0, 5);
+
+  if (!viewed.length) return;
+
+  section.classList.remove('hidden');
+  list.innerHTML = '';
+  viewed.forEach(article => {
+    const li = document.createElement('li');
+    li.className = 'recently-viewed-item';
+    li.innerHTML = `
+      <a class="recently-viewed-link" href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''}>
+        <div class="recently-viewed-title">${article.title}</div>
+        <div class="recently-viewed-meta">${article.author} · ${article.category} · ${article.readingTime}</div>
+      </a>
+    `;
+    list.appendChild(li);
+  });
+}
+
+// ── Feature 31: Bookmarks Panel ───────────────────────────────
+function openBookmarksPanel() {
+  const panel   = document.getElementById('bookmarks-panel');
+  const overlay = document.getElementById('bookmarks-overlay');
+  const list    = document.getElementById('bookmarks-list');
+  const empty   = document.getElementById('bookmarks-empty');
+  if (!panel) return;
+
+  const slugs   = getBookmarks();
+  const saved   = slugs.map(s => articles.find(a => a.slug === s)).filter(Boolean);
+
+  if (saved.length) {
+    list.innerHTML = '';
+    empty.classList.add('hidden');
+    saved.forEach(article => {
+      const li = document.createElement('li');
+      li.className = 'bookmarks-list-item';
+      li.innerHTML = `
+        <a href="${article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`}" ${article.externalUrl ? 'target="_blank" rel="noreferrer noopener"' : ''} class="bookmarks-item-link">
+          <div class="bookmarks-item-title">${article.title}</div>
+          <div class="bookmarks-item-meta">${article.author} · ${article.category}</div>
+        </a>
+        <button class="bookmarks-item-remove" data-slug="${article.slug}" type="button" aria-label="Remove bookmark">✕</button>
+      `;
+      li.querySelector('.bookmarks-item-remove').addEventListener('click', (e) => {
+        toggleBookmark(article.slug);
+        openBookmarksPanel();
+      });
+      list.appendChild(li);
+    });
+  } else {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+  }
+
+  panel.hidden = false;
+  overlay.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookmarksPanel() {
+  const panel   = document.getElementById('bookmarks-panel');
+  const overlay = document.getElementById('bookmarks-overlay');
+  if (!panel) return;
+  panel.hidden = true;
+  overlay.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// ── Feature 33: Category Tabs ────────────────────────────────
+function renderCategoryTabs() {
+  if (!categoryTabsEl) return;
+  const cats = ['All', ...new Set(articles.map(a => a.category)).values()].slice(0, 12);
+  // Clear existing tabs except the label
+  const label = categoryTabsEl.querySelector('.tabs-label');
+  categoryTabsEl.innerHTML = '';
+  if (label) categoryTabsEl.appendChild(label);
+
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cat-tab' + (cat === 'All' ? ' active' : '');
+    btn.dataset.cat = cat === 'All' ? '' : cat;
+    btn.textContent = cat;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      categoryFilter.value = cat === 'All' ? '' : cat;
+      applyFilters();
+      document.getElementById('latest').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    categoryTabsEl.appendChild(btn);
+  });
+}
+
+// ── Feature 34: Search Modal ─────────────────────────────────
+let searchModalFocusIdx = -1;
+
+function openSearchModal() {
+  if (!searchModalEl) return;
+  searchModalEl.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => searchModalInput && searchModalInput.focus(), 50);
+  renderSearchModalResults('');
+}
+
+function closeSearchModal() {
+  if (!searchModalEl) return;
+  searchModalEl.classList.add('hidden');
+  document.body.style.overflow = '';
+  searchModalFocusIdx = -1;
+  if (searchModalInput) searchModalInput.value = '';
+}
+
+function renderSearchModalResults(query) {
+  if (!searchModalResults) return;
+  if (!query.trim()) {
+    searchModalResults.innerHTML = '<p class="search-modal-empty">Start typing to search…</p>';
+    searchModalFocusIdx = -1;
+    return;
+  }
+  const q = query.toLowerCase();
+  const matches = articles.filter(a => {
+    const hay = [a.title, a.author, a.category, a.excerpt, ...(a.tags || [])].filter(Boolean).join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0, 8);
+
+  if (!matches.length) {
+    searchModalResults.innerHTML = '<p class="search-modal-empty">No results found.</p>';
+    return;
+  }
+
+  searchModalResults.innerHTML = '';
+  matches.forEach((article, i) => {
+    const a = document.createElement('a');
+    a.className = 'search-result-item' + (i === searchModalFocusIdx ? ' focused' : '');
+    a.href = article.externalUrl || `article.html?slug=${encodeURIComponent(article.slug)}`;
+    if (article.externalUrl) { a.target = '_blank'; a.rel = 'noreferrer noopener'; }
+    a.dataset.idx = i;
+    a.innerHTML = `
+      ${article.image ? `<div class="search-result-image" style="background-image:url('${article.image}')"></div>` : ''}
+      <div class="search-result-body">
+        <div class="search-result-title">${article.title}</div>
+        <div class="search-result-meta">${article.author} · ${article.date}<span class="search-result-cat">${article.category}</span></div>
+      </div>
+    `;
+    a.addEventListener('click', closeSearchModal);
+    searchModalResults.appendChild(a);
+  });
+  searchModalFocusIdx = -1;
+}
+
+function navigateSearchResults(dir) {
+  const items = searchModalResults.querySelectorAll('.search-result-item');
+  if (!items.length) return;
+  items.forEach(i => i.classList.remove('focused'));
+  searchModalFocusIdx = Math.max(0, Math.min(items.length - 1, searchModalFocusIdx + dir));
+  items[searchModalFocusIdx].classList.add('focused');
+  items[searchModalFocusIdx].scrollIntoView({ block: 'nearest' });
+}
+
+// ── Feature 35: Sidebar Newsletter ───────────────────────────
+function initSidebarNewsletter() {
+  const btn   = document.getElementById('sidebar-nl-btn');
+  const input = document.getElementById('sidebar-nl-email');
+  if (!btn || !input) return;
+  btn.addEventListener('click', () => {
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showToast('Please enter a valid email', 'error', 2000);
+      return;
+    }
+    try { localStorage.setItem('newsletter', JSON.stringify({ email, date: new Date().toISOString() })); } catch {}
+    showToast(`Subscribed as ${email}!`, 'success');
+    input.value = '';
+    btn.textContent = '✓ Subscribed!';
+    btn.disabled = true;
   });
 }
 
@@ -633,6 +909,8 @@ function init() {
     renderStats();
     renderFeatured();
     renderMostRead();
+    renderRecentlyViewed();
+    renderCategoryTabs();
     renderTagCloud();
     applyFilters();
     populateSubscribe();
@@ -646,6 +924,7 @@ function init() {
   categoryFilter.addEventListener('change', applyFilters);
   tagFilter.addEventListener('change', applyFilters);
   if (authorFilter) authorFilter.addEventListener('change', applyFilters);
+  if (readtimeFilter) readtimeFilter.addEventListener('change', applyFilters);
   clearFiltersBtn.addEventListener('click', clearFilters);
   if (emptyClearBtn) emptyClearBtn.addEventListener('click', clearFilters);
   subscribeForm.addEventListener('submit', handleSubscribe);
@@ -672,6 +951,38 @@ function init() {
 
   // Pref chips
   initPrefChips();
+  const surpriseBtn = document.getElementById('surprise-btn');
+  if (surpriseBtn) surpriseBtn.addEventListener('click', surpriseMe);
+  const bookmarksBtn = document.getElementById('bookmarks-btn');
+  if (bookmarksBtn) bookmarksBtn.addEventListener('click', openBookmarksPanel);
+  const bookmarksClose = document.getElementById('bookmarks-close');
+  if (bookmarksClose) bookmarksClose.addEventListener('click', closeBookmarksPanel);
+  const bookmarksOverlay = document.getElementById('bookmarks-overlay');
+  if (bookmarksOverlay) bookmarksOverlay.addEventListener('click', closeBookmarksPanel);
+
+  // Search modal
+  const searchModalBtnEl = document.getElementById('search-modal-btn');
+  if (searchModalBtnEl) searchModalBtnEl.addEventListener('click', openSearchModal);
+  const searchBackdrop = document.getElementById('search-backdrop');
+  if (searchBackdrop) searchBackdrop.addEventListener('click', closeSearchModal);
+  const searchModalCloseBtn = document.getElementById('search-modal-close');
+  if (searchModalCloseBtn) searchModalCloseBtn.addEventListener('click', closeSearchModal);
+  if (searchModalInput) {
+    searchModalInput.addEventListener('input', () => renderSearchModalResults(searchModalInput.value));
+  }
+
+  // Sidebar newsletter
+  initSidebarNewsletter();
+
+  // Sync category tabs when filters change
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', () => {
+      const val = categoryFilter.value;
+      document.querySelectorAll('.cat-tab').forEach(b => {
+        b.classList.toggle('active', b.dataset.cat === val);
+      });
+    });
+  }
 }
 
 onArticlesReady(init);

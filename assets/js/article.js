@@ -230,6 +230,16 @@ function trackView(slug) {
   } catch {}
 }
 
+// ── Feature 15b: Track Recently Viewed ───────────────────────
+function trackRecentlyViewed(slug) {
+  try {
+    const key = 'recentlyViewed';
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    const updated = [slug, ...list.filter(s => s !== slug)].slice(0, 10);
+    localStorage.setItem(key, JSON.stringify(updated));
+  } catch {}
+}
+
 // ── Feature 16: Estimated Reading Time ───────────────────────
 function estimateReadTime(html) {
   const words = html.replace(/<[^>]+>/g, '').trim().split(/\s+/).length;
@@ -528,6 +538,7 @@ function init() {
     renderArticleNav(article);
     renderComments(article.slug);
     trackView(article.slug);
+    trackRecentlyViewed(article.slug);
 
     // Bookmark button
     if (bookmarkBtn) {

@@ -5,155 +5,436 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Editorial Desk — The Record</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #f8fafc; --surface: #fff; --border: #e2e8f0;
+      --bg: #f0f4f8; --surface: #fff; --surface-2: #f8fafc; --surface-3: #f1f5f9;
+      --border: #e2e8f0; --border-hover: #cbd5e1;
       --text: #0f172a; --text-2: #475569; --text-3: #94a3b8;
-      --accent: #2563eb; --accent-hover: #1d4ed8;
-      --danger: #dc2626; --danger-hover: #b91c1c;
-      --success: #059669; --radius: 10px;
+      --accent: #2563eb; --accent-hover: #1d4ed8; --accent-light: rgba(37,99,235,0.1);
+      --danger: #dc2626; --danger-hover: #b91c1c; --danger-light: rgba(220,38,38,0.08);
+      --success: #059669; --success-light: rgba(5,150,105,0.08);
+      --warning: #d97706; --warning-light: rgba(217,119,6,0.08);
+      --radius: 10px; --radius-lg: 16px; --radius-pill: 999px;
+      --shadow: 0 2px 12px rgba(15,23,42,0.07);
+      --shadow-lg: 0 8px 32px rgba(15,23,42,0.12);
+      --transition: 0.18s ease;
     }
     [data-theme="dark"] {
-      --bg: #0f172a; --surface: #1e293b; --border: #334155;
-      --text: #f1f5f9; --text-2: #94a3b8; --text-3: #475569;
+      --bg: #0b0f1a; --surface: #131929; --surface-2: #1a2236; --surface-3: #1e2a40;
+      --border: #1e2d45; --border-hover: #2d3f5e;
+      --text: #e2e8f0; --text-2: #94a3b8; --text-3: #4a5568;
+      --accent: #3b82f6; --accent-hover: #60a5fa; --accent-light: rgba(59,130,246,0.12);
+      --danger: #f87171; --danger-hover: #fca5a5; --danger-light: rgba(248,113,113,0.1);
+      --success: #34d399; --success-light: rgba(52,211,153,0.1);
+      --shadow: 0 2px 12px rgba(0,0,0,0.3); --shadow-lg: 0 8px 32px rgba(0,0,0,0.45);
     }
-    body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    /* Header */
-    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-    .admin-header h1 { font-size: 1.5rem; font-weight: 700; }
-    .admin-header a { color: var(--text-2); font-size: 0.9rem; text-decoration: none; }
-    .admin-header a:hover { color: var(--accent); }
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
 
-    /* Setup banner */
-    #setup-banner { background: #fef3c7; border: 1px solid #fcd34d; border-radius: var(--radius); padding: 16px 20px; margin-bottom: 28px; display: none; }
-    [data-theme="dark"] #setup-banner { background: #451a03; border-color: #92400e; }
-    #setup-banner strong { color: #92400e; }
-    [data-theme="dark"] #setup-banner strong { color: #fcd34d; }
-    #setup-banner code { background: #fde68a; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
-    [data-theme="dark"] #setup-banner code { background: #78350f; color: #fde68a; }
-
-    /* Cards */
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; }
-    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-
-    /* Form */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full { grid-column: 1 / -1; }
-    label { font-size: 0.85rem; font-weight: 500; color: var(--text-2); }
-    input, select, textarea {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
-      padding: 9px 12px; font-size: 0.9rem; color: var(--text); font-family: inherit;
-      transition: border-color 0.15s;
+    /* ── Header ── */
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+      gap: 16px; flex-wrap: wrap;
     }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
-    textarea { resize: vertical; min-height: 100px; }
-    .form-hint { font-size: 0.78rem; color: var(--text-3); }
+    .admin-header-brand h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+    .admin-header-brand p { font-size: 0.82rem; color: var(--text-2); margin-top: 2px; }
+    .admin-header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .admin-header-actions a { color: var(--text-2); font-size: 0.88rem; text-decoration: none; }
+    .admin-header-actions a:hover { color: var(--accent); }
 
-    /* Buttons */
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 7px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: background 0.15s, opacity 0.15s; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-    .btn-danger { background: var(--danger); color: #fff; font-size: 0.8rem; padding: 5px 11px; }
-    .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
-    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-2); }
-    .btn-ghost:hover { background: var(--bg); }
-    .form-actions { margin-top: 20px; display: flex; gap: 12px; align-items: center; }
+    /* ── Keyboard Shortcuts Badge ── */
+    .shortcut-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: var(--radius-pill);
+      border: 1px solid var(--border); background: var(--surface-2);
+      font-size: 0.75rem; color: var(--text-3); cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .shortcut-badge:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .shortcut-badge kbd { font-family: inherit; font-size: 0.72rem; }
 
-    /* Status message */
-    .status-msg { font-size: 0.9rem; padding: 8px 14px; border-radius: 7px; }
-    .status-msg.ok  { background: #d1fae5; color: #065f46; }
-    .status-msg.err { background: #fee2e2; color: #991b1b; }
-    [data-theme="dark"] .status-msg.ok  { background: #064e3b; color: #6ee7b7; }
-    [data-theme="dark"] .status-msg.err { background: #450a0a; color: #fca5a5; }
+    /* ── Cards ── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      font-size: 1rem; font-weight: 700; margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .card-title .card-actions { margin-left: auto; display: flex; gap: 8px; }
+    .card-collapsible .card-body { overflow: hidden; transition: max-height 0.3s ease; }
+    .card-collapsible.collapsed .card-body { max-height: 0 !important; }
+    .collapse-btn {
+      background: none; border: none; cursor: pointer; color: var(--text-3);
+      font-size: 0.9rem; padding: 2px 6px; border-radius: 4px;
+      transition: color var(--transition); line-height: 1;
+    }
+    .collapse-btn:hover { color: var(--accent); }
 
-    /* Article list */
+    /* ── Stats Dashboard ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+    .stat-tile {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; text-align: center;
+    }
+    .stat-tile-number { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-tile-label { font-size: 0.75rem; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+    .category-bars { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .cat-bar { display: flex; align-items: center; gap: 10px; font-size: 0.83rem; }
+    .cat-bar-label { width: 100px; flex-shrink: 0; color: var(--text-2); }
+    .cat-bar-track { flex: 1; height: 7px; background: var(--surface-3); border-radius: var(--radius-pill); overflow: hidden; }
+    .cat-bar-fill { height: 100%; background: var(--accent); border-radius: var(--radius-pill); transition: width 0.6s ease; }
+    .cat-bar-count { width: 28px; text-align: right; color: var(--text-3); font-weight: 600; flex-shrink: 0; }
+
+    /* ── Setup banner ── */
+    #setup-banner { background: var(--warning-light); border: 1px solid var(--warning); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; display: none; }
+    #setup-banner strong { color: var(--warning); }
+    #setup-banner code { background: rgba(217,119,6,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+
+    /* ── Article list ── */
+    .list-toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .list-search {
+      flex: 1; min-width: 180px; padding: 8px 12px; border-radius: var(--radius);
+      border: 1px solid var(--border); background: var(--surface-2);
+      font-size: 0.88rem; color: var(--text); font-family: inherit;
+      transition: border-color var(--transition);
+    }
+    .list-search:focus { outline: none; border-color: var(--accent); }
+    .sort-select {
+      padding: 8px 12px; border-radius: var(--radius); border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); font-size: 0.88rem; font-family: inherit;
+      cursor: pointer;
+    }
     #convex-list { list-style: none; }
     .article-row {
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-      padding: 14px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
     }
     .article-row:last-child { border-bottom: none; }
     .article-row-info { flex: 1; min-width: 0; }
-    .article-row-title { font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .article-row-meta { font-size: 0.8rem; color: var(--text-3); margin-top: 2px; }
+    .article-row-title {
+      font-weight: 600; font-size: 0.93rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .article-row-meta { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+    .article-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
     .empty-msg { color: var(--text-3); font-size: 0.9rem; padding: 16px 0; }
+    .cat-badge {
+      display: inline-block; padding: 2px 8px; border-radius: var(--radius-pill);
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; margin-left: 6px;
+    }
 
-    /* Dark toggle */
-    .dark-btn { background: none; border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; cursor: pointer; color: var(--text-2); font-size: 1rem; }
+    /* ── Form ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 0.82rem; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+    .req { color: var(--danger); }
+    input, select, textarea {
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 9px 12px; font-size: 0.9rem; color: var(--text); font-family: inherit;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+    input.invalid { border-color: var(--danger); }
+    textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
+    .form-hint { font-size: 0.76rem; color: var(--text-3); margin-top: 2px; }
+    .field-error { font-size: 0.76rem; color: var(--danger); font-weight: 500; }
+    .char-count { font-size: 0.74rem; color: var(--text-3); text-align: right; }
+    .char-count.warn { color: var(--warning); }
 
-    @media (max-width: 600px) {
+    /* ── Image preview ── */
+    .image-preview-wrap { margin-top: 8px; display: none; }
+    .image-preview-wrap img {
+      width: 100%; max-height: 180px; object-fit: cover;
+      border-radius: var(--radius); border: 1px solid var(--border);
+    }
+    .image-quick-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+
+    /* ── Content toolbar ── */
+    .content-toolbar {
+      display: flex; gap: 4px; flex-wrap: wrap;
+      padding: 8px 10px; background: var(--surface-3);
+      border: 1px solid var(--border); border-bottom: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .toolbar-btn {
+      padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-2); font-size: 0.8rem;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: background var(--transition), color var(--transition);
+    }
+    .toolbar-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+    .content-toolbar + textarea { border-radius: 0 0 var(--radius) var(--radius) !important; }
+
+    /* ── Live stats bar ── */
+    .content-stats {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      padding: 8px 12px; background: var(--surface-3);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      font-size: 0.78rem; color: var(--text-2);
+    }
+    .content-stats span { display: flex; align-items: center; gap: 4px; }
+    .content-stats strong { color: var(--accent); }
+
+    /* ── Tags autocomplete ── */
+    .tags-wrap { position: relative; }
+    .tags-suggestions {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 100;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow-lg);
+      max-height: 180px; overflow-y: auto; display: none;
+    }
+    .tags-suggestions.open { display: block; }
+    .tag-suggestion {
+      padding: 8px 12px; font-size: 0.85rem; cursor: pointer;
+      transition: background var(--transition);
+    }
+    .tag-suggestion:hover { background: var(--accent-light); color: var(--accent); }
+
+    /* ── Draft indicator ── */
+    .draft-bar {
+      display: none; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: var(--radius);
+      background: var(--warning-light); border: 1px solid var(--warning);
+      font-size: 0.85rem; color: var(--warning); margin-bottom: 14px;
+    }
+    .draft-bar.visible { display: flex; }
+    .draft-bar button { background: none; border: none; color: var(--warning); font-weight: 700; cursor: pointer; font-size: 0.82rem; text-decoration: underline; font-family: inherit; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: var(--radius); font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; border: 1px solid transparent;
+      font-family: inherit; transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+      white-space: nowrap;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-danger { background: var(--danger); color: #fff; font-size: 0.78rem; padding: 5px 11px; border-color: var(--danger); }
+    .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
+    .btn-ghost { background: transparent; border-color: var(--border); color: var(--text-2); }
+    .btn-ghost:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
+    .btn-sm { padding: 5px 11px; font-size: 0.78rem; }
+    .btn-clone { background: var(--surface-2); border-color: var(--border); color: var(--text-2); font-size: 0.78rem; padding: 5px 11px; }
+    .btn-clone:hover:not(:disabled) { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+    .btn-export { background: var(--success-light); border-color: var(--success); color: var(--success); }
+    .btn-export:hover:not(:disabled) { background: var(--success); color: #fff; }
+    .form-actions { margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    /* ── Status messages ── */
+    .status-msg { font-size: 0.88rem; padding: 8px 14px; border-radius: var(--radius); font-weight: 500; }
+    .status-msg.ok  { background: var(--success-light); color: var(--success); border: 1px solid var(--success); }
+    .status-msg.err { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger); }
+
+    /* ── Shortcuts modal ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 1000; display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 28px; max-width: 480px; width: 100%; box-shadow: var(--shadow-lg);
+      animation: popIn 0.18s ease;
+    }
+    @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+    .modal-close { background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 1.2rem; line-height: 1; }
+    .shortcut-list { display: flex; flex-direction: column; gap: 10px; }
+    .shortcut-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--surface-2); border-radius: var(--radius); }
+    .shortcut-item span { font-size: 0.88rem; color: var(--text-2); }
+    .shortcut-item kbd {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.78rem; font-family: inherit;
+      color: var(--text); font-weight: 600;
+    }
+
+    /* ── Toast ── */
+    #toast-area { position: fixed; bottom: 24px; right: 24px; z-index: 500; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+    .toast {
+      padding: 12px 18px; border-radius: var(--radius); background: var(--surface);
+      border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+      font-size: 0.88rem; font-weight: 500; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; transform: translateX(20px); pointer-events: all;
+      transition: opacity 0.25s, transform 0.25s; max-width: 300px;
+    }
+    .toast.show { opacity: 1; transform: translateX(0); }
+    .toast-ok  { border-left: 4px solid var(--success); }
+    .toast-err { border-left: 4px solid var(--danger); }
+    .toast-info { border-left: 4px solid var(--accent); }
+
+    /* ── Dark toggle ── */
+    .dark-btn { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 12px; cursor: pointer; color: var(--text-2); font-size: 0.9rem; font-family: inherit; transition: background var(--transition); }
+    .dark-btn:hover { background: var(--accent-light); color: var(--accent); }
+
+    /* ── Unsaved indicator ── */
+    .unsaved-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--warning); margin-left: 4px; vertical-align: middle; display: none; }
+
+    @media (max-width: 640px) {
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: 1; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
+  <div id="toast-area"></div>
+
+  <!-- Shortcuts modal -->
+  <div class="modal-backdrop" id="shortcuts-modal">
+    <div class="modal-box">
+      <div class="modal-title">
+        ⌨️ Keyboard Shortcuts
+        <button class="modal-close" id="close-shortcuts">✕</button>
+      </div>
+      <div class="shortcut-list">
+        <div class="shortcut-item"><span>Publish article</span><kbd>⌘</kbd><kbd>↵ Enter</kbd></div>
+        <div class="shortcut-item"><span>Save draft</span><kbd>⌘</kbd><kbd>S</kbd></div>
+        <div class="shortcut-item"><span>Clear / reset form</span><kbd>⌘</kbd><kbd>⌫</kbd></div>
+        <div class="shortcut-item"><span>Insert H2 heading</span><kbd>⌘</kbd><kbd>2</kbd></div>
+        <div class="shortcut-item"><span>Insert H3 heading</span><kbd>⌘</kbd><kbd>3</kbd></div>
+        <div class="shortcut-item"><span>Toggle dark mode</span><kbd>⌘</kbd><kbd>D</kbd></div>
+        <div class="shortcut-item"><span>Show this panel</span><kbd>?</kbd></div>
+        <div class="shortcut-item"><span>Focus title field</span><kbd>⌘</kbd><kbd>1</kbd></div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
 
+    <!-- Header -->
     <header class="admin-header">
-      <div>
+      <div class="admin-header-brand">
         <h1>✦ Editorial Desk</h1>
-        <div style="font-size:0.85rem;color:var(--text-2);margin-top:2px;">The Record — Article Management</div>
+        <p>The Record — Article Management</p>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button class="dark-btn" id="dark-toggle" title="Toggle dark mode">🌙</button>
+      <div class="admin-header-actions">
+        <button class="shortcut-badge" id="shortcuts-btn" title="Keyboard shortcuts (?)">⌨️ Shortcuts</button>
+        <button class="btn btn-export btn-sm" id="export-btn" title="Export all articles as JSON">⬇ Export JSON</button>
+        <button class="dark-btn" id="dark-toggle">🌙</button>
         <a href="index.html">← Back to site</a>
       </div>
     </header>
 
-    <!-- Setup banner (shown when CONVEX_SITE_URL is not set) -->
+    <!-- Setup banner -->
     <div id="setup-banner">
-      <strong>Setup required:</strong> Convex is not connected yet. Follow these steps:
-      <ol style="margin:10px 0 0 20px;line-height:2;">
-        <li>Run <code>npm install</code> in the project folder</li>
-        <li>Run <code>npx convex dev</code> — this opens a browser to log in and creates your deployment</li>
-        <li>Copy the <strong>Site URL</strong> shown in the terminal (looks like <code>https://happy-animal-123.convex.site</code>)</li>
-        <li>Paste it into <code>assets/js/convex-config.js</code> as the value of <code>CONVEX_SITE_URL</code></li>
+      <strong>⚠ Setup required:</strong> Convex is not connected yet.
+      <ol style="margin:10px 0 0 20px;line-height:2.2;font-size:0.88rem;">
+        <li>Run <code>npm install</code></li>
+        <li>Run <code>npx convex dev</code> — log in and create your deployment</li>
+        <li>Copy the <strong>Site URL</strong> from the terminal</li>
+        <li>Paste it into <code>assets/js/convex-config.js</code> as <code>CONVEX_SITE_URL</code></li>
         <li>Refresh this page</li>
       </ol>
     </div>
 
-    <!-- Convex articles list -->
+    <!-- Stats dashboard (collapsible) -->
+    <div class="card card-collapsible" id="stats-card">
+      <div class="card-title">
+        📊 Dashboard
+        <div class="card-actions">
+          <button class="collapse-btn" id="stats-collapse-btn" title="Collapse">▲</button>
+        </div>
+      </div>
+      <div class="card-body" id="stats-body">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-tile"><div class="stat-tile-number" id="st-total">—</div><div class="stat-tile-label">Total Articles</div></div>
+          <div class="stat-tile"><div class="stat-tile-number" id="st-authors">—</div><div class="stat-tile-label">Authors</div></div>
+          <div class="stat-tile"><div class="stat-tile-number" id="st-cats">—</div><div class="stat-tile-label">Categories</div></div>
+          <div class="stat-tile"><div class="stat-tile-number" id="st-featured">—</div><div class="stat-tile-label">Featured</div></div>
+        </div>
+        <div class="category-bars" id="cat-bars" style="margin-top:18px;"></div>
+      </div>
+    </div>
+
+    <!-- Articles list -->
     <div class="card">
-      <div class="card-title">📄 Articles in Convex <span id="convex-count" style="font-size:0.8rem;font-weight:400;color:var(--text-3);"></span></div>
+      <div class="card-title">
+        📄 Published Articles
+        <span id="convex-count" style="font-size:0.8rem;font-weight:400;color:var(--text-3);"></span>
+        <div class="card-actions">
+          <button class="btn btn-ghost btn-sm" id="refresh-btn" title="Refresh list">↺ Refresh</button>
+        </div>
+      </div>
+      <div class="list-toolbar">
+        <input id="list-search" class="list-search" type="search" placeholder="🔍  Filter articles…" autocomplete="off" />
+        <select id="list-sort" class="sort-select">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+          <option value="category">By category</option>
+        </select>
+      </div>
       <ul id="convex-list"><li class="empty-msg">Loading…</li></ul>
     </div>
 
-    <!-- Add article form -->
+    <!-- Add / Edit article form -->
     <div class="card">
-      <div class="card-title">➕ Add New Article</div>
+      <div class="card-title">
+        ➕ <span id="form-mode-label">Add New Article</span>
+        <span class="unsaved-dot" id="unsaved-dot"></span>
+        <div class="card-actions">
+          <button class="btn btn-ghost btn-sm" id="preview-btn" title="Preview article in new tab" style="display:none">👁 Preview</button>
+        </div>
+      </div>
+
+      <!-- Draft recovery bar -->
+      <div class="draft-bar" id="draft-bar">
+        📝 You have an unsaved draft. <button id="restore-draft-btn">Restore it</button> or <button id="discard-draft-btn">discard</button>.
+      </div>
+
       <form id="add-form" novalidate>
         <div class="form-grid">
 
+          <!-- Title -->
           <div class="form-group">
-            <label for="f-title">Title *</label>
-            <input id="f-title" type="text" placeholder="Article title" required />
+            <label for="f-title">Title <span class="req">*</span></label>
+            <input id="f-title" type="text" placeholder="Article title" required autocomplete="off" />
+            <div class="char-count" id="title-chars"></div>
           </div>
 
+          <!-- Slug -->
           <div class="form-group">
-            <label for="f-slug">Slug *</label>
+            <label for="f-slug">Slug <span class="req">*</span></label>
             <input id="f-slug" type="text" placeholder="my-article-slug" required />
             <span class="form-hint">URL-safe, lowercase, hyphens only</span>
+            <div class="field-error" id="slug-error"></div>
           </div>
 
+          <!-- Author -->
           <div class="form-group">
-            <label for="f-author">Author *</label>
-            <input id="f-author" type="text" placeholder="Author name" required />
+            <label for="f-author">Author <span class="req">*</span></label>
+            <input id="f-author" type="text" placeholder="Author name" required list="author-suggestions" />
+            <datalist id="author-suggestions"></datalist>
           </div>
 
+          <!-- Date -->
           <div class="form-group">
-            <label for="f-date">Date *</label>
+            <label for="f-date">Date <span class="req">*</span></label>
             <input id="f-date" type="text" placeholder="May 8, 2026" required />
           </div>
 
+          <!-- Category -->
           <div class="form-group">
-            <label for="f-category">Category *</label>
+            <label for="f-category">Category <span class="req">*</span></label>
             <select id="f-category" required>
               <option value="">Select category…</option>
               <option>Analysis</option>
@@ -166,249 +447,872 @@
               <option>Business</option>
               <option>Health</option>
               <option>Politics</option>
+              <option>Sports</option>
+              <option>Interview</option>
             </select>
           </div>
 
+          <!-- Tags -->
           <div class="form-group">
             <label for="f-tags">Tags</label>
-            <input id="f-tags" type="text" placeholder="Tag1, Tag2, Tag3" />
-            <span class="form-hint">Comma-separated</span>
+            <div class="tags-wrap">
+              <input id="f-tags" type="text" placeholder="Tag1, Tag2, Tag3" autocomplete="off" />
+              <div class="tags-suggestions" id="tags-suggestions"></div>
+            </div>
+            <span class="form-hint">Comma-separated. Type to see suggestions.</span>
           </div>
 
+          <!-- Reading time -->
           <div class="form-group">
             <label for="f-reading-time">Reading Time</label>
-            <input id="f-reading-time" type="text" placeholder="5 min read" />
+            <input id="f-reading-time" type="text" placeholder="Auto-calculated" />
+            <span class="form-hint">Leave blank to auto-calculate from word count</span>
           </div>
 
+          <!-- Word count -->
           <div class="form-group">
             <label for="f-word-count">Word Count</label>
-            <input id="f-word-count" type="number" placeholder="1000" min="0" />
+            <input id="f-word-count" type="number" placeholder="Auto-calculated" min="0" />
           </div>
 
-          <div class="form-group">
+          <!-- Cover image -->
+          <div class="form-group full">
             <label for="f-image">Cover Image URL</label>
-            <input id="f-image" type="url" placeholder="https://…" />
+            <input id="f-image" type="url" placeholder="https://images.unsplash.com/…" />
+            <div class="image-quick-btns">
+              <button type="button" class="btn btn-ghost btn-sm" id="img-suggest-btn">🎲 Suggest image</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="img-unsplash-btn">🔍 Search Unsplash</button>
+            </div>
+            <div class="image-preview-wrap" id="image-preview-wrap">
+              <img id="image-preview" src="" alt="Cover image preview" />
+            </div>
           </div>
 
+          <!-- External URL -->
           <div class="form-group">
             <label for="f-external-url">External URL</label>
-            <input id="f-external-url" type="url" placeholder="https://… (leave blank for internal article)" />
-            <span class="form-hint">If set, "Read" button links here instead of article.html</span>
+            <input id="f-external-url" type="url" placeholder="https://… (leave blank for internal)" />
+            <span class="form-hint">If set, Read button links here instead of article.html</span>
           </div>
 
+          <!-- Author bio -->
           <div class="form-group">
             <label for="f-author-bio">Author Bio</label>
             <input id="f-author-bio" type="text" placeholder="Short author description" />
           </div>
 
+          <!-- Series -->
           <div class="form-group">
             <label for="f-series">Series</label>
-            <input id="f-series" type="text" placeholder="Series name (optional)" />
+            <input id="f-series" type="text" placeholder="Series name (optional)" list="series-suggestions" />
+            <datalist id="series-suggestions"></datalist>
           </div>
 
-          <div class="form-group full" style="flex-direction:row;align-items:center;gap:10px;">
-            <input id="f-featured" type="checkbox" style="width:16px;height:16px;padding:0;" />
-            <label for="f-featured" style="margin:0;cursor:pointer;">Mark as featured article</label>
+          <!-- Related slugs -->
+          <div class="form-group">
+            <label for="f-related">Related Article Slugs</label>
+            <input id="f-related" type="text" placeholder="slug-one, slug-two" />
+            <span class="form-hint">Comma-separated slugs of related articles</span>
           </div>
 
+          <!-- Featured checkbox -->
+          <div class="form-group full" style="flex-direction:row;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-2);border-radius:var(--radius);border:1px solid var(--border);">
+            <input id="f-featured" type="checkbox" style="width:18px;height:18px;padding:0;flex-shrink:0;" />
+            <label for="f-featured" style="margin:0;cursor:pointer;font-weight:600;">⭐ Mark as featured article</label>
+          </div>
+
+          <!-- Excerpt -->
           <div class="form-group full">
             <label for="f-excerpt">Excerpt</label>
             <textarea id="f-excerpt" placeholder="Short summary shown on the listing page…" rows="3"></textarea>
+            <div class="char-count" id="excerpt-chars"></div>
           </div>
 
+          <!-- Content with toolbar -->
           <div class="form-group full">
-            <label for="f-content">Content (HTML)</label>
-            <textarea id="f-content" placeholder="<p>Article body HTML…</p>" rows="8"></textarea>
-            <span class="form-hint">Supports HTML: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;blockquote&gt;, etc.</span>
+            <label for="f-content">Content</label>
+            <div class="content-toolbar" id="content-toolbar">
+              <button type="button" class="toolbar-btn" data-insert="h2">H2</button>
+              <button type="button" class="toolbar-btn" data-insert="h3">H3</button>
+              <button type="button" class="toolbar-btn" data-insert="bold"><b>B</b></button>
+              <button type="button" class="toolbar-btn" data-insert="italic"><i>I</i></button>
+              <button type="button" class="toolbar-btn" data-insert="blockquote">❝</button>
+              <button type="button" class="toolbar-btn" data-insert="ul">• List</button>
+              <button type="button" class="toolbar-btn" data-insert="link">🔗</button>
+              <button type="button" class="toolbar-btn" data-insert="hr">— HR</button>
+            </div>
+            <textarea id="f-content" placeholder="Write your article here. Plain text is fine — blank lines become paragraphs. HTML also works." rows="12"></textarea>
+            <div class="content-stats" id="content-stats">
+              <span>Words: <strong id="cs-words">0</strong></span>
+              <span>Read time: <strong id="cs-readtime">—</strong></span>
+              <span>Characters: <strong id="cs-chars">0</strong></span>
+              <span>Paragraphs: <strong id="cs-paras">0</strong></span>
+            </div>
           </div>
 
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary" id="submit-btn">Publish Article</button>
-          <button type="button" class="btn btn-ghost" id="reset-btn">Clear form</button>
+          <button type="submit" class="btn btn-primary" id="submit-btn">🚀 Publish Article <small style="opacity:0.7;font-size:0.75rem;">⌘↵</small></button>
+          <button type="button" class="btn btn-ghost" id="save-draft-btn">💾 Save Draft</button>
+          <button type="button" class="btn btn-ghost" id="reset-btn">✕ Clear</button>
           <span id="form-status"></span>
         </div>
       </form>
     </div>
 
-  </div>
+  </div><!-- /.container -->
 
   <script src="assets/js/convex-config.js"></script>
   <script>
-    // ── Dark mode ────────────────────────────────────────────
-    const darkBtn = document.getElementById('dark-toggle');
-    function applyTheme(t) {
-      document.documentElement.setAttribute('data-theme', t);
-      localStorage.setItem('theme', t);
-      darkBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  'use strict';
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 1: Dark Mode
+  // ─────────────────────────────────────────────────────────────
+  const darkBtn = document.getElementById('dark-toggle');
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('ed-theme', t);
+    darkBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  }
+  applyTheme(localStorage.getItem('ed-theme') || 'light');
+  darkBtn.addEventListener('click', () => applyTheme(
+    document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+  ));
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 2: Toast notification system
+  // ─────────────────────────────────────────────────────────────
+  const toastArea = document.getElementById('toast-area');
+  function toast(msg, type = 'info', ms = 3000) {
+    const el = document.createElement('div');
+    el.className = `toast toast-${type}`;
+    el.textContent = msg;
+    toastArea.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 300);
+    }, ms);
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  Convex URL
+  // ─────────────────────────────────────────────────────────────
+  const url = typeof CONVEX_SITE_URL !== 'undefined' ? CONVEX_SITE_URL : '';
+  if (!url) document.getElementById('setup-banner').style.display = 'block';
+
+  // Article data cache
+  let allArticles = [];
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 3: Load + render articles list with search & sort
+  // ─────────────────────────────────────────────────────────────
+  const listSearch = document.getElementById('list-search');
+  const listSort   = document.getElementById('list-sort');
+
+  async function loadList() {
+    const list  = document.getElementById('convex-list');
+    const count = document.getElementById('convex-count');
+    if (!url) {
+      list.innerHTML = '<li class="empty-msg">Connect Convex first (see setup instructions above).</li>';
+      renderStats([]);
+      return;
     }
-    applyTheme(localStorage.getItem('theme') || 'light');
-    darkBtn.addEventListener('click', () => applyTheme(
-      document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-    ));
-
-    // ── Convex URL check ────────────────────────────────────
-    const url = typeof CONVEX_SITE_URL !== 'undefined' ? CONVEX_SITE_URL : '';
-    if (!url) document.getElementById('setup-banner').style.display = 'block';
-
-    // ── Load articles from Convex ────────────────────────────
-    async function loadList() {
-      const list  = document.getElementById('convex-list');
-      const count = document.getElementById('convex-count');
-      if (!url) {
-        list.innerHTML = '<li class="empty-msg">Connect Convex first (see setup instructions above).</li>';
-        return;
-      }
-      try {
-        const res  = await fetch(url + '/articles');
-        const data = await res.json();
-        count.textContent = `(${data.length})`;
-        if (!data.length) {
-          list.innerHTML = '<li class="empty-msg">No articles in Convex yet — add one below.</li>';
-          return;
-        }
-        list.innerHTML = '';
-        data.forEach(article => {
-          const li = document.createElement('li');
-          li.className = 'article-row';
-          li.innerHTML = `
-            <div class="article-row-info">
-              <div class="article-row-title">${escHtml(article.title)}</div>
-              <div class="article-row-meta">${escHtml(article.author)} · ${escHtml(article.category)} · ${escHtml(article.date)}</div>
-            </div>
-            <button class="btn btn-danger del-btn" data-id="${article._id}">Delete</button>
-          `;
-          li.querySelector('.del-btn').addEventListener('click', () => deleteArticle(article._id, article.title));
-          list.appendChild(li);
-        });
-      } catch (e) {
-        list.innerHTML = `<li class="empty-msg" style="color:var(--danger);">Error loading articles: ${e.message}</li>`;
-      }
+    list.innerHTML = '<li class="empty-msg">Loading…</li>';
+    try {
+      const res  = await fetch(url + '/articles');
+      const data = await res.json();
+      allArticles = data;
+      renderStats(data);
+      populateSuggestions(data);
+      renderList(data);
+      count.textContent = `(${data.length})`;
+    } catch (e) {
+      list.innerHTML = `<li class="empty-msg" style="color:var(--danger);">Error loading: ${escHtml(e.message)}</li>`;
     }
+  }
 
-    // ── Delete article ───────────────────────────────────────
-    async function deleteArticle(id, title) {
-      if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-      try {
-        const res = await fetch(`${url}/articles?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error(await res.text());
-        loadList();
-      } catch (e) {
-        alert('Delete failed: ' + e.message);
-      }
+  function renderList(data) {
+    const list = document.getElementById('convex-list');
+    const q    = listSearch.value.trim().toLowerCase();
+    const sort = listSort.value;
+
+    let filtered = data.filter(a =>
+      !q || (a.title + a.author + a.category + (a.date || '')).toLowerCase().includes(q)
+    );
+
+    const parseDate = d => new Date(d || 0).getTime();
+    if (sort === 'newest')   filtered.sort((a,b) => parseDate(b.date) - parseDate(a.date));
+    if (sort === 'oldest')   filtered.sort((a,b) => parseDate(a.date) - parseDate(b.date));
+    if (sort === 'az')       filtered.sort((a,b) => a.title.localeCompare(b.title));
+    if (sort === 'za')       filtered.sort((a,b) => b.title.localeCompare(a.title));
+    if (sort === 'category') filtered.sort((a,b) => (a.category||'').localeCompare(b.category||''));
+
+    if (!filtered.length) {
+      list.innerHTML = `<li class="empty-msg">${q ? 'No articles match your search.' : 'No articles yet — add one below.'}</li>`;
+      return;
     }
-
-    // ── Auto-fill slug from title ────────────────────────────
-    const titleInput = document.getElementById('f-title');
-    const slugInput  = document.getElementById('f-slug');
-    let slugTouched  = false;
-    slugInput.addEventListener('input', () => { slugTouched = true; });
-    titleInput.addEventListener('input', () => {
-      if (!slugTouched) {
-        slugInput.value = titleInput.value
-          .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, '')
-          .trim()
-          .replace(/\s+/g, '-');
-      }
+    list.innerHTML = '';
+    filtered.forEach(article => {
+      const li = document.createElement('li');
+      li.className = 'article-row';
+      li.innerHTML = `
+        <div class="article-row-info">
+          <div class="article-row-title">${escHtml(article.title)}<span class="cat-badge">${escHtml(article.category)}</span></div>
+          <div class="article-row-meta">${escHtml(article.author)} · ${escHtml(article.date)} · ${escHtml(article.readingTime || '—')}</div>
+        </div>
+        <div class="article-row-actions">
+          <button class="btn btn-clone btn-sm clone-btn" data-id="${article._id}" title="Clone this article">⧉ Clone</button>
+          <button class="btn btn-danger btn-sm del-btn" data-id="${article._id}" title="Delete article">✕</button>
+        </div>
+      `;
+      li.querySelector('.del-btn').addEventListener('click', () => deleteArticle(article._id, article.title));
+      li.querySelector('.clone-btn').addEventListener('click', () => cloneArticle(article));
+      list.appendChild(li);
     });
+  }
 
-    // ── Auto-fill date ───────────────────────────────────────
-    const dateInput = document.getElementById('f-date');
-    if (!dateInput.value) {
-      dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  listSearch.addEventListener('input', () => renderList(allArticles));
+  listSort.addEventListener('change', () => renderList(allArticles));
+  document.getElementById('refresh-btn').addEventListener('click', loadList);
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 4: Delete article
+  // ─────────────────────────────────────────────────────────────
+  async function deleteArticle(id, title) {
+    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
+    try {
+      const res = await fetch(`${url}/articles?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(await res.text());
+      toast(`"${title}" deleted`, 'ok');
+      loadList();
+    } catch (e) {
+      toast('Delete failed: ' + e.message, 'err');
     }
+  }
 
-    // ── Submit form ──────────────────────────────────────────
-    const form      = document.getElementById('add-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const statusEl  = document.getElementById('form-status');
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 5: Stats dashboard
+  // ─────────────────────────────────────────────────────────────
+  function renderStats(data) {
+    document.getElementById('st-total').textContent    = data.length;
+    document.getElementById('st-authors').textContent  = new Set(data.map(a => a.author)).size;
+    document.getElementById('st-cats').textContent     = new Set(data.map(a => a.category)).size;
+    document.getElementById('st-featured').textContent = data.filter(a => a.featured).length;
 
-    function setStatus(msg, type) {
-      statusEl.textContent = msg;
-      statusEl.className = `status-msg ${type}`;
+    const catCounts = {};
+    data.forEach(a => { catCounts[a.category] = (catCounts[a.category] || 0) + 1; });
+    const max = Math.max(...Object.values(catCounts), 1);
+    const bars = document.getElementById('cat-bars');
+    bars.innerHTML = Object.entries(catCounts)
+      .sort(([,a],[,b]) => b - a)
+      .slice(0, 8)
+      .map(([cat, n]) => `
+        <div class="cat-bar">
+          <span class="cat-bar-label">${escHtml(cat)}</span>
+          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${Math.round(n/max*100)}%"></div></div>
+          <span class="cat-bar-count">${n}</span>
+        </div>`).join('');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 6: Collapsible stats card
+  // ─────────────────────────────────────────────────────────────
+  const statsCard = document.getElementById('stats-card');
+  const statsBody = document.getElementById('stats-body');
+  const statsCollapseBtn = document.getElementById('stats-collapse-btn');
+  statsBody.style.maxHeight = statsBody.scrollHeight + 'px';
+  statsCollapseBtn.addEventListener('click', () => {
+    const collapsed = statsCard.classList.toggle('collapsed');
+    statsCollapseBtn.textContent = collapsed ? '▼' : '▲';
+    if (!collapsed) statsBody.style.maxHeight = statsBody.scrollHeight + 'px';
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 7: Clone / Duplicate article
+  // ─────────────────────────────────────────────────────────────
+  function cloneArticle(article) {
+    document.getElementById('f-title').value       = article.title + ' (Copy)';
+    document.getElementById('f-slug').value        = (article.slug || '') + '-copy';
+    document.getElementById('f-author').value      = article.author || '';
+    document.getElementById('f-date').value        = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    document.getElementById('f-category').value   = article.category || '';
+    document.getElementById('f-tags').value        = (article.tags || []).join(', ');
+    document.getElementById('f-reading-time').value = article.readingTime || '';
+    document.getElementById('f-word-count').value  = article.wordCount || '';
+    document.getElementById('f-image').value       = article.image || '';
+    document.getElementById('f-external-url').value = article.externalUrl || '';
+    document.getElementById('f-author-bio').value  = article.authorBio || '';
+    document.getElementById('f-series').value      = article.series || '';
+    document.getElementById('f-related').value     = (article.relatedSlugs || []).join(', ');
+    document.getElementById('f-featured').checked  = false;
+    document.getElementById('f-excerpt').value     = article.excerpt || '';
+    document.getElementById('f-content').value     = article.content || '';
+    slugTouched = true;
+    updateContentStats();
+    updateImagePreview(article.image || '');
+    showUnsaved();
+    document.getElementById('f-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('f-title').focus();
+    toast('Article cloned — edit and publish!', 'info');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 8: Export articles as JSON
+  // ─────────────────────────────────────────────────────────────
+  document.getElementById('export-btn').addEventListener('click', () => {
+    if (!allArticles.length) { toast('No articles to export', 'err'); return; }
+    const blob = new Blob([JSON.stringify(allArticles, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `the-record-articles-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast(`Exported ${allArticles.length} articles`, 'ok');
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 9: Live content word count + reading time
+  // ─────────────────────────────────────────────────────────────
+  const contentEl  = document.getElementById('f-content');
+  const csWords    = document.getElementById('cs-words');
+  const csReadtime = document.getElementById('cs-readtime');
+  const csChars    = document.getElementById('cs-chars');
+  const csParas    = document.getElementById('cs-paras');
+
+  function updateContentStats() {
+    const raw   = contentEl.value;
+    const text  = raw.replace(/<[^>]+>/g, ' ').trim();
+    const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+    const mins  = Math.max(1, Math.round(words / 220));
+    const paras = raw.split(/\n{2,}/).filter(s => s.trim()).length;
+    csWords.textContent    = words.toLocaleString();
+    csReadtime.textContent = words > 0 ? `${mins} min` : '—';
+    csChars.textContent    = raw.length.toLocaleString();
+    csParas.textContent    = paras;
+    // Auto-fill reading time and word count if blank
+    const rtEl = document.getElementById('f-reading-time');
+    const wcEl = document.getElementById('f-word-count');
+    if (!rtEl.dataset.manual && words > 0) rtEl.placeholder = `${mins} min read`;
+    if (!wcEl.dataset.manual && words > 0) wcEl.placeholder = words;
+  }
+
+  contentEl.addEventListener('input', updateContentStats);
+  document.getElementById('f-reading-time').addEventListener('input', function() { this.dataset.manual = '1'; });
+  document.getElementById('f-word-count').addEventListener('input', function() { this.dataset.manual = '1'; });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 10: Content toolbar (insert HTML snippets)
+  // ─────────────────────────────────────────────────────────────
+  const TOOLBAR_INSERTS = {
+    h2:         ['<h2>', '</h2>'],
+    h3:         ['<h3>', '</h3>'],
+    bold:       ['<strong>', '</strong>'],
+    italic:     ['<em>', '</em>'],
+    blockquote: ['<blockquote>', '</blockquote>'],
+    ul:         ['<ul>\n  <li>', '</li>\n</ul>'],
+    link:       ['<a href="URL">', '</a>'],
+    hr:         ['<hr>', ''],
+  };
+  document.getElementById('content-toolbar').addEventListener('click', e => {
+    const btn = e.target.closest('[data-insert]');
+    if (!btn) return;
+    const type = btn.dataset.insert;
+    const [open, close] = TOOLBAR_INSERTS[type] || ['', ''];
+    const start = contentEl.selectionStart;
+    const end   = contentEl.selectionEnd;
+    const sel   = contentEl.value.slice(start, end);
+    const replacement = open + (sel || 'Your text here') + close;
+    contentEl.setRangeText(replacement, start, end, 'select');
+    contentEl.focus();
+    updateContentStats();
+    showUnsaved();
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 11: Image URL preview + quick image buttons
+  // ─────────────────────────────────────────────────────────────
+  const imgInput    = document.getElementById('f-image');
+  const previewWrap = document.getElementById('image-preview-wrap');
+  const previewImg  = document.getElementById('image-preview');
+
+  function updateImagePreview(val) {
+    if (val && (val.startsWith('http') || val.startsWith('/'))) {
+      previewWrap.style.display = 'block';
+      previewImg.src = val;
+      previewImg.onerror = () => { previewWrap.style.display = 'none'; };
+    } else {
+      previewWrap.style.display = 'none';
     }
+  }
+  imgInput.addEventListener('input', () => updateImagePreview(imgInput.value.trim()));
+  imgInput.addEventListener('blur',  () => updateImagePreview(imgInput.value.trim()));
 
-    form.addEventListener('submit', async (e) => {
+  // Suggest image based on category
+  const CATEGORY_UNSPLASH = {
+    Analysis: 'business,charts', Technology: 'technology,computer',
+    Science: 'science,laboratory', Health: 'health,medicine',
+    Culture: 'art,culture', Features: 'journalism,writing',
+    Opinion: 'thinking,ideas', News: 'newspaper,media',
+    Business: 'business,office', Politics: 'government,politics',
+    Sports: 'sports,athlete', Interview: 'interview,conversation',
+  };
+  document.getElementById('img-suggest-btn').addEventListener('click', () => {
+    const cat   = document.getElementById('f-category').value || 'news';
+    const query = CATEGORY_UNSPLASH[cat] || cat.toLowerCase();
+    const seed  = Math.floor(Math.random() * 1000);
+    const url_  = `https://images.unsplash.com/photo-${1500000000000 + seed * 1000000}?auto=format&fit=crop&w=1200&q=80`;
+    // Use a more reliable approach — random from a set of known good images
+    const fallbacks = [
+      'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80',
+    ];
+    const suggested = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    imgInput.value = suggested;
+    updateImagePreview(suggested);
+    toast('Image suggested! Change it if needed.', 'info');
+  });
+  document.getElementById('img-unsplash-btn').addEventListener('click', () => {
+    const q = document.getElementById('f-title').value || document.getElementById('f-category').value || 'news';
+    window.open(`https://unsplash.com/s/photos/${encodeURIComponent(q)}`, '_blank', 'noopener,noreferrer');
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 12: Tag suggestions from existing articles
+  // ─────────────────────────────────────────────────────────────
+  const tagsInput = document.getElementById('f-tags');
+  const tagsSugg  = document.getElementById('tags-suggestions');
+  let allTags = [];
+
+  function populateSuggestions(data) {
+    const tagSet = new Set(data.flatMap(a => a.tags || []));
+    allTags = [...tagSet].sort();
+    // Author datalist
+    const authorDl = document.getElementById('author-suggestions');
+    const authors  = [...new Set(data.map(a => a.author))].filter(Boolean);
+    authorDl.innerHTML = authors.map(a => `<option value="${escHtml(a)}">`).join('');
+    // Series datalist
+    const seriesDl = document.getElementById('series-suggestions');
+    const series   = [...new Set(data.map(a => a.series).filter(Boolean))];
+    seriesDl.innerHTML = series.map(s => `<option value="${escHtml(s)}">`).join('');
+  }
+
+  tagsInput.addEventListener('input', () => {
+    const parts = tagsInput.value.split(',');
+    const current = parts[parts.length - 1].trim().toLowerCase();
+    if (!current) { tagsSugg.classList.remove('open'); return; }
+    const matches = allTags.filter(t => t.toLowerCase().startsWith(current) && !tagsInput.value.toLowerCase().includes(t.toLowerCase()));
+    if (!matches.length) { tagsSugg.classList.remove('open'); return; }
+    tagsSugg.innerHTML = matches.slice(0, 8).map(t =>
+      `<div class="tag-suggestion">${escHtml(t)}</div>`
+    ).join('');
+    tagsSugg.classList.add('open');
+    tagsSugg.querySelectorAll('.tag-suggestion').forEach(el => {
+      el.addEventListener('click', () => {
+        const prev = tagsInput.value.split(',').slice(0, -1).filter(Boolean).join(', ');
+        tagsInput.value = prev ? prev + ', ' + el.textContent + ', ' : el.textContent + ', ';
+        tagsSugg.classList.remove('open');
+        tagsInput.focus();
+      });
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!tagsInput.contains(e.target) && !tagsSugg.contains(e.target)) {
+      tagsSugg.classList.remove('open');
+    }
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 13: Character counter for title & excerpt
+  // ─────────────────────────────────────────────────────────────
+  function charCounter(inputId, counterId, max) {
+    const inp = document.getElementById(inputId);
+    const ctr = document.getElementById(counterId);
+    function update() {
+      const len = inp.value.length;
+      ctr.textContent = `${len}/${max}`;
+      ctr.classList.toggle('warn', len > max * 0.85);
+    }
+    inp.addEventListener('input', update);
+  }
+  charCounter('f-title', 'title-chars', 100);
+  charCounter('f-excerpt', 'excerpt-chars', 300);
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 14: Draft autosave + restore
+  // ─────────────────────────────────────────────────────────────
+  const DRAFT_KEY = 'ed-draft';
+  const unsavedDot = document.getElementById('unsaved-dot');
+  const draftBar   = document.getElementById('draft-bar');
+  let draftTimer   = null;
+  let formDirty    = false;
+
+  function getFormData() {
+    return {
+      title:       document.getElementById('f-title').value,
+      slug:        document.getElementById('f-slug').value,
+      author:      document.getElementById('f-author').value,
+      date:        document.getElementById('f-date').value,
+      category:    document.getElementById('f-category').value,
+      tags:        document.getElementById('f-tags').value,
+      readingTime: document.getElementById('f-reading-time').value,
+      wordCount:   document.getElementById('f-word-count').value,
+      image:       document.getElementById('f-image').value,
+      externalUrl: document.getElementById('f-external-url').value,
+      authorBio:   document.getElementById('f-author-bio').value,
+      series:      document.getElementById('f-series').value,
+      related:     document.getElementById('f-related').value,
+      featured:    document.getElementById('f-featured').checked,
+      excerpt:     document.getElementById('f-excerpt').value,
+      content:     document.getElementById('f-content').value,
+    };
+  }
+
+  function setFormData(d) {
+    document.getElementById('f-title').value       = d.title || '';
+    document.getElementById('f-slug').value        = d.slug || '';
+    document.getElementById('f-author').value      = d.author || '';
+    document.getElementById('f-date').value        = d.date || '';
+    document.getElementById('f-category').value    = d.category || '';
+    document.getElementById('f-tags').value        = d.tags || '';
+    document.getElementById('f-reading-time').value = d.readingTime || '';
+    document.getElementById('f-word-count').value  = d.wordCount || '';
+    document.getElementById('f-image').value       = d.image || '';
+    document.getElementById('f-external-url').value = d.externalUrl || '';
+    document.getElementById('f-author-bio').value  = d.authorBio || '';
+    document.getElementById('f-series').value      = d.series || '';
+    document.getElementById('f-related').value     = d.related || '';
+    document.getElementById('f-featured').checked  = d.featured || false;
+    document.getElementById('f-excerpt').value     = d.excerpt || '';
+    document.getElementById('f-content').value     = d.content || '';
+    updateContentStats();
+    updateImagePreview(d.image || '');
+    slugTouched = !!(d.slug);
+  }
+
+  function saveDraft() {
+    try {
+      const data = getFormData();
+      const hasContent = Object.values(data).some(v => v && v !== false);
+      if (hasContent) {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...data, _saved: Date.now() }));
+      }
+    } catch {}
+  }
+
+  function showUnsaved() {
+    formDirty = true;
+    unsavedDot.style.display = 'inline-block';
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(saveDraft, 2000);
+  }
+  function clearUnsaved() {
+    formDirty = false;
+    unsavedDot.style.display = 'none';
+    clearTimeout(draftTimer);
+  }
+
+  // Wire all form inputs to autosave
+  document.getElementById('add-form').addEventListener('input', showUnsaved);
+  document.getElementById('add-form').addEventListener('change', showUnsaved);
+
+  // Check for existing draft on load
+  function checkDraft() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
+      if (saved && saved._saved) {
+        const age = Date.now() - saved._saved;
+        if (age < 7 * 24 * 60 * 60 * 1000) { // < 7 days
+          const mins = Math.floor(age / 60000);
+          const timeAgo = mins < 1 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.floor(mins/60)}h ago`;
+          draftBar.querySelector('p, span') && (draftBar.innerHTML = `📝 Unsaved draft from ${timeAgo}. <button id="restore-draft-btn">Restore it</button> or <button id="discard-draft-btn">discard</button>.`);
+          draftBar.classList.add('visible');
+          document.getElementById('restore-draft-btn').addEventListener('click', () => {
+            setFormData(saved);
+            draftBar.classList.remove('visible');
+            toast('Draft restored!', 'ok');
+            showUnsaved();
+          });
+          document.getElementById('discard-draft-btn').addEventListener('click', () => {
+            localStorage.removeItem(DRAFT_KEY);
+            draftBar.classList.remove('visible');
+            toast('Draft discarded', 'info');
+          });
+        }
+      }
+    } catch {}
+  }
+
+  document.getElementById('save-draft-btn').addEventListener('click', () => {
+    saveDraft();
+    toast('Draft saved!', 'ok');
+    clearUnsaved();
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 15: Confirm before leaving with unsaved changes
+  // ─────────────────────────────────────────────────────────────
+  window.addEventListener('beforeunload', e => {
+    if (formDirty) {
       e.preventDefault();
-      if (!url) { setStatus('Convex not connected — see setup instructions.', 'err'); return; }
+      e.returnValue = '';
+    }
+  });
 
-      const title = document.getElementById('f-title').value.trim();
-      const slug  = document.getElementById('f-slug').value.trim();
-      const author = document.getElementById('f-author').value.trim();
-      const date   = document.getElementById('f-date').value.trim();
-      const category = document.getElementById('f-category').value;
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 16: Slug auto-fill + validation
+  // ─────────────────────────────────────────────────────────────
+  const titleInput = document.getElementById('f-title');
+  const slugInput  = document.getElementById('f-slug');
+  const slugError  = document.getElementById('slug-error');
+  let slugTouched  = false;
 
-      if (!title || !slug || !author || !date || !category) {
-        setStatus('Please fill in all required fields (marked with *).', 'err');
-        return;
-      }
+  slugInput.addEventListener('input', () => { slugTouched = true; validateSlug(); });
+  titleInput.addEventListener('input', () => {
+    if (!slugTouched) {
+      slugInput.value = titleInput.value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-');
+    }
+    validateSlug();
+  });
 
-      const rawTags = document.getElementById('f-tags').value;
-      const tags = rawTags ? rawTags.split(',').map(t => t.trim()).filter(Boolean) : [];
+  function validateSlug() {
+    const val = slugInput.value.trim();
+    if (!val) { slugError.textContent = ''; return; }
+    if (!/^[a-z0-9-]+$/.test(val)) {
+      slugError.textContent = 'Slugs may only contain lowercase letters, numbers, and hyphens.';
+      slugInput.classList.add('invalid');
+    } else if (allArticles.some(a => a.slug === val)) {
+      slugError.textContent = '⚠ This slug already exists in Convex.';
+      slugInput.classList.add('invalid');
+    } else {
+      slugError.textContent = '';
+      slugInput.classList.remove('invalid');
+    }
+  }
 
-      const wordCountVal = document.getElementById('f-word-count').value;
-      const payload = {
-        title, slug, author, date, category, tags,
-        authorBio:   document.getElementById('f-author-bio').value.trim() || undefined,
-        authorAvatar: author.slice(0, 2).toUpperCase(),
-        readingTime: document.getElementById('f-reading-time').value.trim() || undefined,
-        wordCount:   wordCountVal ? parseInt(wordCountVal, 10) : undefined,
-        image:       document.getElementById('f-image').value.trim() || undefined,
-        externalUrl: document.getElementById('f-external-url').value.trim() || undefined,
-        excerpt:     document.getElementById('f-excerpt').value.trim() || undefined,
-        content:     document.getElementById('f-content').value.trim() || undefined,
-        series:      document.getElementById('f-series').value.trim() || undefined,
-        featured:    document.getElementById('f-featured').checked || undefined,
-      };
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 17: Auto-fill date
+  // ─────────────────────────────────────────────────────────────
+  const dateInput = document.getElementById('f-date');
+  dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-      // Remove undefined keys
-      Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 18: Article preview button (opens article.html)
+  // ─────────────────────────────────────────────────────────────
+  const previewBtn = document.getElementById('preview-btn');
+  slugInput.addEventListener('input', () => {
+    const slug = slugInput.value.trim();
+    if (slug) {
+      previewBtn.style.display = 'inline-flex';
+      previewBtn.onclick = () => window.open(`article.html?slug=${encodeURIComponent(slug)}`, '_blank');
+    } else {
+      previewBtn.style.display = 'none';
+    }
+  });
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Publishing…';
-      setStatus('', '');
+  // ─────────────────────────────────────────────────────────────
+  //  FEATURE 19: Keyboard shortcuts
+  // ─────────────────────────────────────────────────────────────
+  const shortcutsModal = document.getElementById('shortcuts-modal');
+  document.getElementById('shortcuts-btn').addEventListener('click', () => shortcutsModal.classList.add('open'));
+  document.getElementById('close-shortcuts').addEventListener('click', () => shortcutsModal.classList.remove('open'));
+  shortcutsModal.addEventListener('click', e => { if (e.target === shortcutsModal) shortcutsModal.classList.remove('open'); });
 
-      try {
-        const res = await fetch(url + '/articles', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        if (!res.ok) {
-          const err = await res.text();
-          throw new Error(err);
-        }
-        setStatus(`"${title}" published successfully!`, 'ok');
-        form.reset();
-        slugTouched = false;
-        dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-        loadList();
-      } catch (err) {
-        setStatus('Error: ' + err.message, 'err');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Publish Article';
-      }
-    });
+  document.addEventListener('keydown', e => {
+    const mod = e.metaKey || e.ctrlKey;
 
-    document.getElementById('reset-btn').addEventListener('click', () => {
+    // ? — show shortcuts
+    if (e.key === '?' && !mod && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      shortcutsModal.classList.toggle('open');
+    }
+
+    // ⌘Enter — submit form
+    if (mod && e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('add-form').dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+
+    // ⌘S — save draft
+    if (mod && e.key === 's') {
+      e.preventDefault();
+      saveDraft();
+      toast('Draft saved!', 'ok');
+      clearUnsaved();
+    }
+
+    // ⌘1 — focus title
+    if (mod && e.key === '1') {
+      e.preventDefault();
+      titleInput.focus();
+      titleInput.select();
+    }
+
+    // ⌘2 — insert H2 in content
+    if (mod && e.key === '2' && document.activeElement === contentEl) {
+      e.preventDefault();
+      const pos = contentEl.selectionStart;
+      contentEl.setRangeText('<h2>Heading</h2>', pos, pos, 'select');
+      updateContentStats();
+    }
+
+    // ⌘3 — insert H3 in content
+    if (mod && e.key === '3' && document.activeElement === contentEl) {
+      e.preventDefault();
+      const pos = contentEl.selectionStart;
+      contentEl.setRangeText('<h3>Heading</h3>', pos, pos, 'select');
+      updateContentStats();
+    }
+
+    // ⌘D — toggle dark mode
+    if (mod && e.key === 'd' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      darkBtn.click();
+    }
+
+    // Escape — close modals
+    if (e.key === 'Escape') {
+      shortcutsModal.classList.remove('open');
+    }
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  Submit form
+  // ─────────────────────────────────────────────────────────────
+  const form      = document.getElementById('add-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusEl  = document.getElementById('form-status');
+
+  function setStatus(msg, type) {
+    statusEl.textContent = msg;
+    statusEl.className = `status-msg ${type}`;
+  }
+
+  function autoHtml(text) {
+    if (!text) return text;
+    if (/<[a-z][\s\S]*>/i.test(text)) return text;
+    return text.split(/\n{2,}/).map(c => c.trim()).filter(Boolean)
+      .map(c => `<p>${c.replace(/\n/g, '<br>')}</p>`).join('\n');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!url) { setStatus('Convex not connected — see setup instructions.', 'err'); return; }
+
+    const title    = titleInput.value.trim();
+    const slug     = slugInput.value.trim();
+    const author   = document.getElementById('f-author').value.trim();
+    const date     = dateInput.value.trim();
+    const category = document.getElementById('f-category').value;
+
+    if (!title || !slug || !author || !date || !category) {
+      setStatus('Please fill in all required fields (marked with *).', 'err');
+      return;
+    }
+    if (!/^[a-z0-9-]+$/.test(slug)) {
+      setStatus('Slug contains invalid characters.', 'err');
+      return;
+    }
+
+    const rawTags   = document.getElementById('f-tags').value;
+    const tags      = rawTags ? rawTags.split(',').map(t => t.trim()).filter(Boolean) : [];
+    const rawRelated = document.getElementById('f-related').value;
+    const relatedSlugs = rawRelated ? rawRelated.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+    const wcRaw    = document.getElementById('f-word-count').value;
+    const rtRaw    = document.getElementById('f-reading-time').value.trim();
+    // Auto-calculate if blank
+    const raw  = contentEl.value;
+    const wc   = wcRaw ? parseInt(wcRaw, 10) : (raw ? raw.replace(/<[^>]+>/g, '').trim().split(/\s+/).filter(Boolean).length : undefined);
+    const rt   = rtRaw || (wc ? `${Math.max(1, Math.round(wc / 220))} min read` : undefined);
+
+    const payload = {
+      title, slug, author, date, category, tags,
+      authorBio:    document.getElementById('f-author-bio').value.trim() || undefined,
+      authorAvatar: author.slice(0, 2).toUpperCase(),
+      readingTime:  rt,
+      wordCount:    wc,
+      image:        document.getElementById('f-image').value.trim() || undefined,
+      externalUrl:  document.getElementById('f-external-url').value.trim() || undefined,
+      excerpt:      document.getElementById('f-excerpt').value.trim() || undefined,
+      content:      autoHtml(raw.trim()) || undefined,
+      series:       document.getElementById('f-series').value.trim() || undefined,
+      relatedSlugs: relatedSlugs.length ? relatedSlugs : undefined,
+      featured:     document.getElementById('f-featured').checked || undefined,
+    };
+    Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Publishing…';
+    setStatus('', '');
+
+    try {
+      const res = await fetch(url + '/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      setStatus(`✓ "${title}" published!`, 'ok');
+      toast(`"${title}" published!`, 'ok');
       form.reset();
       slugTouched = false;
-      setStatus('', '');
       dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    });
-
-    // ── Helpers ──────────────────────────────────────────────
-    function escHtml(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      updateContentStats();
+      previewWrap.style.display = 'none';
+      previewBtn.style.display = 'none';
+      clearUnsaved();
+      localStorage.removeItem(DRAFT_KEY);
+      draftBar.classList.remove('visible');
+      loadList();
+    } catch (err) {
+      setStatus('Error: ' + err.message, 'err');
+      toast('Publish failed: ' + err.message, 'err');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '🚀 Publish Article <small style="opacity:0.7;font-size:0.75rem;">⌘↵</small>';
     }
+  });
 
-    // ── Init ─────────────────────────────────────────────────
-    loadList();
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (formDirty && !confirm('Discard all changes?')) return;
+    form.reset();
+    slugTouched = false;
+    setStatus('', '');
+    dateInput.value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    updateContentStats();
+    previewWrap.style.display = 'none';
+    previewBtn.style.display = 'none';
+    clearUnsaved();
+  });
+
+  // ─────────────────────────────────────────────────────────────
+  //  Helpers
+  // ─────────────────────────────────────────────────────────────
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  //  Init
+  // ─────────────────────────────────────────────────────────────
+  loadList();
+  checkDraft();
+  updateContentStats();
   </script>
 </body>
 </html>
